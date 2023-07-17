@@ -4,6 +4,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.huawei.hms.push.HmsMessaging;
 
 import org.telegram.messenger.huawei.BuildConfig;
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.GoogleLocationProvider;
+import org.telegram.messenger.GoogleMapsProvider;
+import org.telegram.messenger.ILocationServiceProvider;
+import org.telegram.messenger.IMapsProvider;
+import org.telegram.messenger.PushListenerController;
 
 public class HuaweiApplicationLoader extends ApplicationLoader {
     @Override

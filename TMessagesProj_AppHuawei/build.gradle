@@ -22,7 +22,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation files('../TMessagesProj/libs/libgsaverification-client.aar')
 
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
     implementation 'com.huawei.hms:push:6.5.0.300'
     implementation 'com.huawei.hms:maps:6.6.0.300'
     implementation 'com.huawei.hms:location:6.4.0.300'
@@ -36,15 +36,10 @@ android {
 
     sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
 
-    lintOptions {
-        disable 'MissingTranslation'
-        disable 'ExtraTranslation'
-        disable 'BlockedPrivateApi'
-    }
 
-    dexOptions {
-        jumboMode = true
-    }
+//    dexOptions {
+//        jumboMode = true
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -137,7 +132,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionName APP_VERSION_NAME
         ndkVersion "21.4.7075529"
 
@@ -147,8 +142,7 @@ android {
 
         externalNativeBuild {
             cmake {
-                version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-16', "-j=16"
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-16'
             }
         }
     }
@@ -156,10 +150,13 @@ android {
     buildFeatures {
         buildConfig = true
     }
-
-    lintOptions {
+    ndkVersion '21.4.7075529'
+    lint {
         checkReleaseBuilds false
+        disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
     }
+    namespace 'org.telegram.messenger.huawei'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

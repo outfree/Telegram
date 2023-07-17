@@ -14,6 +14,15 @@ import android.text.TextUtils;
 
 import com.google.android.search.verification.client.SearchActionVerificationClientService;
 
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.SendMessagesHelper;
+import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 
 public class GoogleVoiceClientService extends SearchActionVerificationClientService {

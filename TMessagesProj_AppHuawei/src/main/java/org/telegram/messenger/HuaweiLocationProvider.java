@@ -19,6 +19,9 @@ import com.huawei.hms.location.LocationSettingsRequest;
 import com.huawei.hms.location.LocationSettingsStatusCodes;
 import com.huawei.hms.location.SettingsClient;
 
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.ILocationServiceProvider;
+
 @SuppressLint("MissingPermission")
 public class HuaweiLocationProvider implements ILocationServiceProvider {
     private FusedLocationProviderClient locationProviderClient;
