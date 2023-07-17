@@ -13,6 +13,8 @@ import android.os.Bundle;
 
 import com.google.android.search.verification.client.SearchActionVerificationClientService;
 
+import org.telegram.messenger.AndroidUtilities;
+
 public class GoogleVoiceClientService extends SearchActionVerificationClientService {
 
     @Override
