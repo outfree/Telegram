@@ -4,3 +4,11 @@ build/
 obj/
 *.iml
 local.properties
+/TMessagesProj/.cxx/
+/TMessagesProj_App/.cxx/
+/TMessagesProj_AppHockeyApp/.cxx/
+/TMessagesProj_AppHuawei/.cxx/
+/TMessagesProj/afat/
+/TMessagesProj_App/afat/
+/TMessagesProj_AppHockeyApp/afat/
+/TMessagesProj_AppHuawei/afat/
