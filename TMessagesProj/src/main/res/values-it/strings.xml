@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">TGPro</string>
+    <string name="AppNameBeta">TGPro Beta</string>
     <string name="LanguageName">Italiano</string>
     <string name="English">Inglese</string>
     <string name="LanguageNameInEnglish">Italian</string>
@@ -26,9 +26,9 @@
     <string name="SentAppCode">Abbiamo inviato il codice su **Telegram** in un tuo altro dispositivo.</string>
     <string name="SentAppCodeTitle">Controlla i tuoi messaggi Telegram</string>
     <string name="SentSmsCodeTitle">Inserisci codice</string>
-    <string name="SentCallCode">Stiamo chiamando il tuo numero **%1$s**.\n\nNon rispondere alla chiamata, Telegram farà tutto in automatico.</string>
+    <string name="SentCallCode">Stiamo chiamando il tuo numero **%1$s**.\n\nNon rispondere alla chiamata, TGPro farà tutto in automatico.</string>
     <string name="SentCallOnly">Chiameremo il tuo numero **%1$s** per dettarti un codice.</string>
-    <string name="CallText">Telegram ti chiamerà tra %1$d:%2$02d</string>
+    <string name="CallText">TGPro ti chiamerà tra %1$d:%2$02d</string>
     <string name="SmsText">Ti invieremo un SMS tra %1$d:%2$02d</string>
     <string name="Calling">Ti stiamo chiamando...</string>
     <string name="SendingSms">Invio SMS...</string>
@@ -37,7 +37,7 @@
     <string name="DidNotGetTheCode">Non hai ricevuto il codice?</string>
     <string name="DidNotGetTheCodeSms">Invia il codice come SMS</string>
     <string name="CancelAccountReset">Annulla ripristino account</string>
-    <string name="CancelAccountResetInfo2">Qualcuno con accesso a **%1$s** ha richiesto l\'eliminazione del tuo account Telegram e il ripristino della password della verifica in due passaggi.\n\nSe non sei stato tu, per favore inserisci il codice che abbiamo appena inviato tramite SMS. Puoi anche annullare *cambiando il tuo numero di telefono*.</string>
+    <string name="CancelAccountResetInfo2">Qualcuno con accesso a **%1$s** ha richiesto l\'eliminazione del tuo account TGPro e il ripristino della password della verifica in due passaggi.\n\nSe non sei stato tu, per favore inserisci il codice che abbiamo appena inviato tramite SMS. Puoi anche annullare *cambiando il tuo numero di telefono*.</string>
     <string name="ResetAccount">Ripristino account</string>
     <string name="ResetAccountInfo">Dato che l\'account **%1$s** è attivo e protetto da una password, sarà eliminato tra 1 settimana. Questo ritardo è richiesto per motivi di sicurezza.\n\nPuoi annullare questo processo in qualsiasi momento.</string>
     <string name="ResetAccountStatus">Potrai ripristinare il tuo account tra:</string>
@@ -45,7 +45,7 @@
     <string name="ResetAccountButton">RIPRISTINA ACCOUNT</string>
     <string name="CancelLinkExpired">Link non valido o scaduto.</string>
     <string name="CancelLinkSuccess">Il processo di eliminazione per il tuo account %1$s è stato annullato. Puoi chiudere questa finestra ora.</string>
-    <string name="OtherLoginCode">Il tuo codice di accesso è **%1$s**. Inseriscilo nell\'app Telegram in cui stai cercando di accedere.\n\nNon dare questo codice a nessuno.</string>
+    <string name="OtherLoginCode">Il tuo codice di accesso è **%1$s**. Inseriscilo nell\'app TGPro in cui stai cercando di accedere.\n\nNon dare questo codice a nessuno.</string>
     <!--signup view-->
     <string name="YourName">Il tuo nome</string>
     <string name="RegisterText2">Inserisci il tuo nome e aggiungi una foto del profilo.</string>
@@ -82,7 +82,7 @@
     <string name="PaymentBillingAddress">Indirizzo di fatturazione</string>
     <string name="PaymentCardName">Nome e cognome</string>
     <string name="PaymentCardSavePaymentInformation">Salva info di pagamento</string>
-    <string name="PaymentCardSavePaymentInformationInfoLine1">Puoi salvare le tue informazioni di pagamento per uso futuro. Saranno memorizzate direttamente con il fornitore dei pagamenti. Telegram non ha accesso ai dati della tua carta di credito.</string>
+    <string name="PaymentCardSavePaymentInformationInfoLine1">Puoi salvare le tue informazioni di pagamento per uso futuro. Saranno memorizzate direttamente con il fornitore dei pagamenti. TGPro non ha accesso ai dati della tua carta di credito.</string>
     <string name="PaymentCardSavePaymentInformationInfoLine2">Per favore *attiva la verifica in due passaggi* per abilitare questo.</string>
     <string name="PaymentTransactionReview">Riepilogo transazione</string>
     <string name="PaymentTransactionMessage2">Trasferire **%1$s** al bot %2$s per **%3$s**?</string>
@@ -104,7 +104,7 @@
     <string name="PaymentFailed">Spiacenti, il pagamento è stato rifiutato.</string>
     <string name="PaymentConnectionFailed">Impossibile raggiungere il server di pagamento. Per favore controlla la tua connessione a Internet e riprova.</string>
     <string name="PaymentWarning">Attenzione</string>
-    <string name="PaymentWarningText">Né Telegram, né %1$s avranno accesso alle informazioni della tua carta di credito. I dettagli della tua carta di credito saranno gestiti solamente dal sistema di pagamento, %2$s.\n\nI pagamenti saranno inviati direttamente allo sviluppatore di %1$s. Telegram non può fornire alcuna garanzia, per cui procedi a tuo rischio. In caso di problemi, per favore contatta lo sviluppatore di %1$s o la tua banca.</string>
+    <string name="PaymentWarningText">Né Telegram, né %1$s avranno accesso alle informazioni della tua carta di credito. I dettagli della tua carta di credito saranno gestiti solamente dal sistema di pagamento, %2$s.\n\nI pagamenti saranno inviati direttamente allo sviluppatore di %1$s. TGPro non può fornire alcuna garanzia, per cui procedi a tuo rischio. In caso di problemi, per favore contatta lo sviluppatore di %1$s o la tua banca.</string>
     <string name="PaymentPassword">Password e email</string>
     <string name="PaymentPasswordTitle">Password</string>
     <string name="PaymentPasswordEnter">Inserisci una password</string>
@@ -297,7 +297,7 @@
     <string name="ImportedInfo">Messaggio importato da un’altra app. Non possiamo garantire che sia reale.</string>
     <string name="ImportUploading">Importo messaggi e media... **%d%%**</string>
     <string name="ImportImportingTitle">Importazione chat</string>
-    <string name="ImportImportingInfo">Tieni Telegram aperto fino\nal termine dell’importazione.</string>
+    <string name="ImportImportingInfo">Tieni TGPro aperto fino\nal termine dell’importazione.</string>
     <string name="ImportCount">%1$s di %2$s</string>
     <string name="ImportDone">Fatto</string>
     <string name="ImportDoneTitle">Chat importata con successo!</string>
@@ -337,7 +337,7 @@
     <string name="MegaLeaveAlertWithName">Sei sicuro di voler lasciare **%1$s**?</string>
     <string name="GroupUserCantAdd">Spiacenti, non puoi aggiungere questo utente ai gruppi.</string>
     <string name="GroupUserAddLimit">Spiacenti, questo gruppo è pieno.</string>
-    <string name="GroupUserLeftError">Spiacenti, se una persona non fa più parte di un gruppo, devi essere nei suoi contatti di Telegram per poterla riaggiungere.\n\nTieni presente che può comunque unirsi con il link d\'invito del gruppo purché non sia nell\'elenco Utenti rimossi.</string>
+    <string name="GroupUserLeftError">Spiacenti, se una persona non fa più parte di un gruppo, devi essere nei suoi contatti di TGPro per poterla riaggiungere.\n\nTieni presente che può comunque unirsi con il link d\'invito del gruppo purché non sia nell\'elenco Utenti rimossi.</string>
     <string name="GroupUserCantAdmin">Spiacenti, troppi amministratori in questo gruppo.</string>
     <string name="PublicChannelsTooMuch">Spiacenti, l\'utente selezionato ha già troppi gruppi o canali pubblici. Per favore chiedigli di rendere privato uno dei suoi gruppi o canali.</string>
     <string name="LocatedChannelsTooMuch">Spiacenti, l\'utente selezionato ha già troppi gruppi basati sulla posizione. Per favore chiedigli di eliminarne o trasferirne uno prima.</string>
@@ -456,7 +456,7 @@
     <string name="ChannelRemoveUserAdmin">Rimuovi amministratore</string>
     <string name="ChannelEditPermissions">Modifica permessi</string>
     <string name="ChannelMembersInfo">Solo gli amministratori del canale possono vedere questa lista.</string>
-    <string name="ChannelLinkInfo">Chiunque abbia Telegram installato potrà unirsi al tuo canale aprendo questo link.</string>
+    <string name="ChannelLinkInfo">Chiunque abbia TGPro installato potrà unirsi al tuo canale aprendo questo link.</string>
     <string name="ChannelAdminsInfo">Puoi aggiungere amministratori per farti aiutare a gestire il tuo canale. Tieni premuto per rimuovere gli amministratori.</string>
     <string name="ChannelJoinTo">Vuoi unirti al canale \'%1$s\'?</string>
     <string name="ChannelCantOpenPrivate">Spiacenti, questa chat non è più accessibile.</string>
@@ -464,7 +464,7 @@
     <string name="ChannelCantOpenBanned">Sfortunatamente, non ti è permesso partecipare ai gruppi pubblici.</string>
     <string name="ChannelCantOpenNa">Spiacenti, questa chat non è più accessibile.</string>
     <string name="ChannelAddTo">Aggiungere %1$s al canale?</string>
-    <string name="ChannelUserLeftError">Spiacenti, se una persona non fa più parte di un canale, devi essere nei suoi contatti di Telegram per poterla riaggiungere.\n\nTieni presente che può comunque unirsi con il link d\'invito del canale purché non sia nell\'elenco Utenti rimossi.</string>
+    <string name="ChannelUserLeftError">Spiacenti, se una persona non fa più parte di un canale, devi essere nei suoi contatti di TGPro per poterla riaggiungere.\n\nTieni presente che può comunque unirsi con il link d\'invito del canale purché non sia nell\'elenco Utenti rimossi.</string>
     <string name="ChannelUserCantAdd">Spiacenti, non puoi aggiungere questo utente ai canali.</string>
     <string name="ChannelUserCantAdmin">Spiacenti, troppi amministratori in questo canale.</string>
     <string name="ChannelUserCantBot">Spiacenti, troppi bot in questo canale.</string>
@@ -957,7 +957,7 @@
     <string name="OpenUrlOption1">Accedi a %1$s come **%2$s**</string>
     <string name="OpenUrlOption2">Consenti a **%1$s** di inviarmi messaggi</string>
     <string name="CancelSending">Annulla invio</string>
-    <string name="BotPermissionGameAlert">Consentire a %1$s di trasmettere il tuo nome e id Telegram (non il tuo numero di telefono) alle pagine che apri tramite questo bot?</string>
+    <string name="BotPermissionGameAlert">Consentire a %1$s di trasmettere il tuo nome e id TGPro (non il tuo numero di telefono) alle pagine che apri tramite questo bot?</string>
     <string name="ReportSpamLocation">GRUPPO NON LEGATO ALLA POSIZIONE?</string>
     <string name="ReportUnrelatedGroup">Segnala gruppo non correlato</string>
     <string name="ReportUnrelatedGroupText">Per favore dicci se il gruppo non è legato a questa posizione:\n\n**%1$s**</string>
@@ -1018,7 +1018,7 @@
     <string name="ReportInfo">Per favore aggiungi qualsiasi dettaglio rilevante per la tua segnalazione.</string>
     <string name="ReportHint">Dettagli aggiuntivi...</string>
     <string name="ReportSend">Invia segnalazione</string>
-    <string name="ReportSentInfo">I moderatori di Telegram esamineranno la segnalazione.\nGrazie per la collaborazione!</string>
+    <string name="ReportSentInfo">I moderatori di TGPro esamineranno la segnalazione.\nGrazie per la collaborazione!</string>
     <string name="ReportChatSpam">Spam</string>
     <string name="ReportChatFakeAccount">Account falso</string>
     <string name="ReportChatViolence">Violenza</string>
@@ -1349,7 +1349,7 @@
     <string name="ShareContactTitle">Condividi contatto</string>
     <string name="AddContactPhonebookTitle">Aggiungi contatto</string>
     <string name="NoContacts">Ancora nessun contatto</string>
-    <string name="InviteText2">Ehi, sto usando Telegram per chattare. Unisciti a me! Scaricalo qui: %1$s</string>
+    <string name="InviteText2">Ehi, sto usando TGPro per chattare. Unisciti a me! Scaricalo qui: %1$s</string>
     <string name="TodayAt">alle</string>
     <string name="YesterdayAt">ieri alle</string>
     <string name="TodayAtFormatted">alle %1$s</string>
@@ -1372,7 +1372,7 @@
     <string name="InviteToTelegram">INVITA SU TELEGRAM</string>
     <string name="ShareTelegram">Condividi Telegram...</string>
     <string name="UpdateContactsTitle">Aggiornare i contatti?</string>
-    <string name="UpdateContactsMessage">Telegram ha trovato molti contatti non sincronizzati, vorresti sincronizzarli adesso? Scegli \'OK\' se stai usando il tuo dispositivo, la tua SIM e il tuo account Google.</string>
+    <string name="UpdateContactsMessage">TGPro ha trovato molti contatti non sincronizzati, vorresti sincronizzarli adesso? Scegli \'OK\' se stai usando il tuo dispositivo, la tua SIM e il tuo account Google.</string>
     <string name="SortedByName">Ordinati per nome</string>
     <string name="SortedByLastSeen">Ordinati per ultimo accesso</string>
     <string name="AddContactByPhone">Aggiungi %1$s</string>
@@ -1422,7 +1422,7 @@
     <string name="RevokeLinkAlertChannel">Sei sicuro di voler revocare il link **%1$s**?\n\nIl canale \"**%2$s**\" diventerà privato.</string>
     <string name="CopyLink">Copia link</string>
     <string name="ShareLink">Condividi link</string>
-    <string name="LinkInfo">Chiunque abbia Telegram installato potrà unirsi al tuo gruppo tramite questo link.</string>
+    <string name="LinkInfo">Chiunque abbia TGPro installato potrà unirsi al tuo gruppo tramite questo link.</string>
     <string name="SearchForPeople">Cerca persone...</string>
     <string name="SearchForPeopleAndGroups">Cerca utenti e gruppi...</string>
     <string name="GigagroupConvertTitle">Gruppi broadcast</string>
@@ -1628,7 +1628,7 @@
     <string name="ImportStickersLinkTaken">Spiacenti, questo link è già stato preso.</string>
     <string name="ImportStickersImportingTitle">Importazione sticker</string>
     <string name="ImportStickersDoneTitle">Sticker importati con successo!</string>
-    <string name="ImportStickersDoneInfo">Importa altri sticker su Telegram e condividili con i tuoi amici.</string>
+    <string name="ImportStickersDoneInfo">Importa altri sticker su TGPro e condividili con i tuoi amici.</string>
     <!--theme view-->
     <string name="Theme">Tema</string>
     <string name="AutoNightTheme">Modalità notte automatica</string>
@@ -1683,7 +1683,7 @@
     <string name="NewThemeTitle">Nuovo tema</string>
     <string name="EditThemeTitle">Modifica tema</string>
     <string name="CreateNewThemeHelp">Tocca sull\'icona della tavolozza per vedere la lista degli elementi in ogni schermata - e modificarli.</string>
-    <string name="CreateNewThemeAlert">Puoi creare il tuo tema cambiando i colori all\'interno dell\'app.\n\nPuoi sempre tornare al tema Telegram di default qui.</string>
+    <string name="CreateNewThemeAlert">Puoi creare il tuo tema cambiando i colori all\'interno dell\'app.\n\nPuoi sempre tornare al tema TGPro di default qui.</string>
     <string name="ThemeSetUrlHelp">Puoi usare a-z, 0-9 e underscore.\nLa lunghezza minima è 5 caratteri.</string>
     <string name="ThemeHelpLink">Il tuo tema sarà aggiornato per tutti gli utenti ogni volta che lo modifichi. Chiunque può installarlo usando questo link:\n%1$s</string>
     <string name="ThemeCreateHelp">Chiunque può installare il tuo tema utilizzando questo link. Quando modifichi il tema, sarà aggiornato per tutti gli utenti che lo hanno installato.\n\nIl tema sarà basato sul tema e sullo sfondo attualmente selezionati.</string>
@@ -1880,8 +1880,8 @@
     <string name="LanguageUnofficial">Lingue non ufficiali</string>
     <string name="LanguageUnsupportedError">Questa lingua non esiste.</string>
     <string name="LanguageSame">Stai già usando questa lingua (**%1$s**). Puoi cambiare la tua lingua in qualsiasi momento nelle Impostazioni.</string>
-    <string name="LanguageUnknownCustomAlert">Sfortunatamente, questa lingua personalizza (**%1$s**) non contiene dati per Telegram Android.</string>
-    <string name="AskAQuestionInfo">Per favore nota che il supporto di Telegram è gestito da volontari. Proviamo a rispondere quanto prima, ma potrebbe volerci del tempo.\n\nDai un\'occhiata alle <![CDATA[<a href=\"https://telegram.org/faq/it#domande-generali\">FAQ di Telegram</a>]]>: contengono suggerimenti importanti per <![CDATA[<a href=\"https://telegram.org/faq/it#risoluzione-dei-problemi\">risolvere i problemi</a>]]> e risposte a quasi tutte le domande.</string>
+    <string name="LanguageUnknownCustomAlert">Sfortunatamente, questa lingua personalizza (**%1$s**) non contiene dati per TGPro Android.</string>
+    <string name="AskAQuestionInfo">Per favore nota che il supporto di TGPro è gestito da volontari. Proviamo a rispondere quanto prima, ma potrebbe volerci del tempo.\n\nDai un\'occhiata alle <![CDATA[<a href=\"https://telegram.org/faq/it#domande-generali\">FAQ di Telegram</a>]]>: contengono suggerimenti importanti per <![CDATA[<a href=\"https://telegram.org/faq/it#risoluzione-dei-problemi\">risolvere i problemi</a>]]> e risposte a quasi tutte le domande.</string>
     <string name="AskButton">Chiedi a un volontario</string>
     <string name="TelegramFAQ">FAQ Telegram</string>
     <string name="TelegramFaq">FAQ Telegram</string>
@@ -1900,7 +1900,7 @@
     <string name="NotificationsService">Servizio keep-alive</string>
     <string name="NotificationsServiceInfo">Riavvia l\'app quando terminata. Attiva per notifiche affidabili.</string>
     <string name="NotificationsServiceConnection">Connessione in background</string>
-    <string name="NotificationsServiceConnectionInfo">Mantiene una connessione a basso impatto con Telegram per notifiche affidabili.</string>
+    <string name="NotificationsServiceConnectionInfo">Mantiene una connessione a basso impatto con TGPro per notifiche affidabili.</string>
     <string name="SortBy">Ordina per</string>
     <string name="ImportContacts">Importa contatti</string>
     <string name="SortFirstName">Nome</string>
@@ -2027,7 +2027,7 @@
     <string name="Emoji">Emoji</string>
     <string name="LargeEmoji">Emoji grandi</string>
     <string name="EmojiUseDefault">Usa emoji di default</string>
-    <string name="TelegramVersion">Telegram per Android %1$s</string>
+    <string name="TelegramVersion">TGPro per Android %1$s</string>
     <string name="DebugMenu">Menu debug</string>
     <string name="DebugSendLogs">Invia i log</string>
     <string name="DebugSendLastLogs">Invia gli ultimi log</string>
@@ -2075,7 +2075,7 @@
     <string name="UseProxyForCallsInfo">I server proxy potrebbero ridurre la qualità delle tue chiamate.</string>
     <string name="ConnectingToProxyEnable">Attiva</string>
     <string name="LowDiskSpaceTitle">Attenzione</string>
-    <string name="LowDiskSpaceMessage">Hai quasi esaurito lo spazio sul dispositivo. Per liberarlo, imposta Telegram per salvare nella cache solo i media recenti.</string>
+    <string name="LowDiskSpaceMessage">Hai quasi esaurito lo spazio sul dispositivo. Per liberarlo, imposta TGPro per salvare nella cache solo i media recenti.</string>
     <string name="LowDiskSpaceTitle2">Rimuovi media dopo</string>
     <string name="LowDiskSpaceNeverRemove">Non rimuovere mai</string>
     <string name="AutodownloadContacts">Contatti</string>
@@ -2086,7 +2086,7 @@
     <string name="AutodownloadSizeLimitUpTo">fino a %1$s</string>
     <string name="Streaming">Streaming</string>
     <string name="EnableStreaming">Streaming file video e audio</string>
-    <string name="EnableAllStreamingInfo">Alcuni video non possono essere riprodotti in streaming – ad esempio, tutti i video inviati da Android usando Telegram 4.7 o precedente.</string>
+    <string name="EnableAllStreamingInfo">Alcuni video non possono essere riprodotti in streaming – ad esempio, tutti i video inviati da Android usando TGPro 4.7 o precedente.</string>
     <string name="TapToChangePhone">Tocca per cambiare numero di telefono</string>
     <string name="Appearance">Aspetto</string>
     <string name="StickersAndMasks">Sticker e maschere</string>
@@ -2107,7 +2107,7 @@
     <string name="TapToChange">Tocca per cambiare</string>
     <string name="AlternativeOptions">Opzioni alternative</string>
     <string name="AddAnotherAccount">Aggiungi un altro account</string>
-    <string name="AddAnotherAccountInfo">Connetti altri account Telegram e passa facilmente da uno all\'altro.</string>
+    <string name="AddAnotherAccountInfo">Connetti altri account TGPro e passa facilmente da uno all\'altro.</string>
     <string name="SetPasscode">Imposta un codice di blocco</string>
     <string name="SetPasscodeInfo">Blocca l\'app con un codice, così gli altri non potranno aprirla.</string>
     <string name="ClearCache">Svuota cache</string>
@@ -2135,11 +2135,11 @@
     <string name="AuthAnotherClientNotFound">Nessun token di autenticazione trovato</string>
     <string name="AuthAnotherClientOk">Autenticazione riuscita</string>
     <string name="AuthAnotherClientDownloadClientUrl">https://desktop.telegram.org/</string>
-    <string name="AuthAnotherClientInfo1">Scarica Telegram sul tuo computer da *desktop.telegram.org*</string>
-    <string name="AuthAnotherClientInfo2">Avvia Telegram Desktop per ottenere il codice QR.</string>
+    <string name="AuthAnotherClientInfo1">Scarica TGPro sul tuo computer da *desktop.telegram.org*</string>
+    <string name="AuthAnotherClientInfo2">Avvia TGPro Desktop per ottenere il codice QR.</string>
     <string name="AuthAnotherClientInfo3">Scansiona il codice QR per connettere il tuo account.</string>
     <string name="AuthAnotherClientUrl">Questo codice può essere usato per consentire a qualcuno di accedere al tuo account Telegram.\n\nPer confermare l\'accesso a Telegram, vai in Impostazioni &gt; Dispositivi &gt; Scansiona QR e scansiona il codice.</string>
-    <string name="QRCodePermissionNoCamera">Telegram deve accedere alla tua fotocamera affinché tu possa scansionare i codici QR .</string>
+    <string name="QRCodePermissionNoCamera">TGPro deve accedere alla tua fotocamera affinché tu possa scansionare i codici QR .</string>
     <string name="SetProfilePhoto">Imposta foto del profilo</string>
     <string name="AppUpdate">Aggiorna Telegram</string>
     <string name="AppUpdateVersionAndSize">Versione %1$s • %2$s</string>
@@ -2176,7 +2176,7 @@
     <string name="LocalDatabase">Database locale</string>
     <string name="LocalDatabaseClearTextTitle">Cancella database locale</string>
     <string name="LocalDatabaseClearText">Sei sicuro di voler eliminare i messaggi di testo nella cache?</string>
-    <string name="LocalDatabaseInfo">Cancellando il database locale, saranno eliminati i messaggi nella cache e il database verrà compresso per risparmiare spazio. Telegram ha bisogno di alcuni dati per funzionare, quindi il database non sarà azzerato.\n\nQuesta operazione può richiedere alcuni minuti.</string>
+    <string name="LocalDatabaseInfo">Cancellando il database locale, saranno eliminati i messaggi nella cache e il database verrà compresso per risparmiare spazio. TGPro ha bisogno di alcuni dati per funzionare, quindi il database non sarà azzerato.\n\nQuesta operazione può richiedere alcuni minuti.</string>
     <string name="ClearMediaCache">Svuota cache</string>
     <string name="CacheClear">Svuota</string>
     <string name="CalculatingSize">Calcolo...</string>
@@ -2189,22 +2189,22 @@
     <string name="LocalCache">Altri file</string>
     <string name="CacheEmpty">Vuota</string>
     <string name="KeepMedia">Mantieni media</string>
-    <string name="KeepMediaInfo">Foto, video e altri file dalle chat nel cloud che non hai **aperto** in questo periodo saranno eliminati dal dispositivo per preservare lo spazio sul disco.\n\nTutti i media rimarranno nel cloud Telegram e potranno essere riscaricati ogni volta che ne avrai bisogno.</string>
+    <string name="KeepMediaInfo">Foto, video e altri file dalle chat nel cloud che non hai **aperto** in questo periodo saranno eliminati dal dispositivo per preservare lo spazio sul disco.\n\nTutti i media rimarranno nel cloud TGPro e potranno essere riscaricati ogni volta che ne avrai bisogno.</string>
     <string name="KeepMediaForever">Sempre</string>
     <string name="AudioAutodownload">Messaggi vocali</string>
     <string name="VideoMessagesAutodownload">Videomessaggi</string>
     <!--passport view-->
-    <string name="TelegramPassport">Telegram Passport</string>
+    <string name="TelegramPassport">TGPro Passport</string>
     <string name="PassportRequestedInformation">Informazioni richieste</string>
     <string name="PassportProvidedInformation">Informazioni fornite\n</string>
-    <string name="PassportInfoTitle">Cos\'è Telegram Passport?</string>
-    <string name="PassportInfo2">Con Telegram Passport puoi iscriverti facilmente ai siti web e ai servizi che richiedono la verifica dell\'identità.\n\nLe tue informazioni, i tuoi dati personali e i tuoi documenti sono protetti tramite crittografia end-to-end. Nessuno, incluso Telegram, può accedervi senza il tuo permesso.\n\nPuoi visitare le nostre *FAQ* per saperne di più.</string>
+    <string name="PassportInfoTitle">Cos\'è TGPro Passport?</string>
+    <string name="PassportInfo2">Con TGPro Passport puoi iscriverti facilmente ai siti web e ai servizi che richiedono la verifica dell\'identità.\n\nLe tue informazioni, i tuoi dati personali e i tuoi documenti sono protetti tramite crittografia end-to-end. Nessuno, incluso Telegram, può accedervi senza il tuo permesso.\n\nPuoi visitare le nostre *FAQ* per saperne di più.</string>
     <string name="PassportInfoUrl">https://telegram.org/faq/it/#passport</string>
-    <string name="TelegramPassportCreatePasswordInfo">Per favore crea una password per rendere sicuri i tuoi dati personali tramite crittografia end-to-end.\n\nQuesta password sarà inoltre richiesta ogni volta che accedi a Telegram su un nuovo dispositivo.</string>
+    <string name="TelegramPassportCreatePasswordInfo">Per favore crea una password per rendere sicuri i tuoi dati personali tramite crittografia end-to-end.\n\nQuesta password sarà inoltre richiesta ogni volta che accedi a TGPro su un nuovo dispositivo.</string>
     <string name="TelegramPassportCreatePassword">CREA UNA PASSWORD</string>
-    <string name="TelegramPassportDelete">Elimina Telegram Passport</string>
-    <string name="TelegramPassportDeleteTitle">Elimina Telegram passport</string>
-    <string name="TelegramPassportDeleteAlert">Sei sicuro di voler eliminare il tuo Telegram Passport?</string>
+    <string name="TelegramPassportDelete">Elimina TGPro Passport</string>
+    <string name="TelegramPassportDeleteTitle">Elimina TGPro passport</string>
+    <string name="TelegramPassportDeleteAlert">Sei sicuro di voler eliminare il tuo TGPro Passport?</string>
     <string name="PassportUseLatinOnly">Usare solo caratteri latini.</string>
     <string name="PassportAddPassportInfo">Carica le scansioni di una traduzione inglese verificata del tuo passaporto.</string>
     <string name="PassportAddInternalPassportInfo">Carica le scansioni di una traduzione inglese verificata del tuo passaporto nazionale.</string>
@@ -2252,7 +2252,7 @@
     <string name="PassportEmailVerifyInfo">Per favore inserisci il codice di conferma che abbiamo appena inviato a %1$s.</string>
     <string name="PassportSelfRequest">Per favore inserisci la tua password per accedere ai tuoi dati personali.</string>
     <string name="PassportRequest">%1$s richiede l\'accesso ai tuoi dati personali per l\'iscrizione ai suoi servizi.</string>
-    <string name="PassportRequestPasswordInfo">Inserisci la tua password di Telegram per decifrare i tuoi dati.</string>
+    <string name="PassportRequestPasswordInfo">Inserisci la tua password di TGPro per decifrare i tuoi dati.</string>
     <string name="PassportPolicy">Accetti l\'*Informativa sulla privacy di %1$s* e consenti a @%2$s di inviarti messaggi.</string>
     <string name="PassportNoPolicy">Stai inviando i tuoi documenti direttamente a %1$s e autorizzi il loro @%2$s a inviarti messaggi.</string>
     <string name="PassportAuthorize">AUTORIZZA</string>
@@ -2384,7 +2384,7 @@
     <string name="SessionsTitle">Sessioni attive</string>
     <string name="CurrentSession">Questo dispositivo</string>
     <string name="NoOtherSessions">Nessun\'altra sessione attiva</string>
-    <string name="NoOtherSessionsInfo">Puoi accedere a Telegram da altri dispositivi mobile, tablet e desktop usando lo stesso numero. Tutti i tuoi dati saranno sincronizzati istantaneamente.</string>
+    <string name="NoOtherSessionsInfo">Puoi accedere a TGPro da altri dispositivi mobile, tablet e desktop usando lo stesso numero. Tutti i tuoi dati saranno sincronizzati istantaneamente.</string>
     <string name="OtherSessions">Sessioni attive</string>
     <string name="SessionsInfo">Controlla le tue sessioni sugli altri dispositivi.</string>
     <string name="TerminateSessionInfo">Tocca su una sessione per terminarla.</string>
@@ -2408,7 +2408,7 @@
     <string name="Disconnect">Disconnetti</string>
     <string name="TerminateWebSessionStop">Blocca %1$s</string>
     <string name="TerminateAllWebSessions">Disconnetti tutti i siti web</string>
-    <string name="AreYouSureWebSessions">Sei sicuro di voler disconnettere tutti i siti web in cui hai usato Telegram per accedere?</string>
+    <string name="AreYouSureWebSessions">Sei sicuro di voler disconnettere tutti i siti web in cui hai usato TGPro per accedere?</string>
     <string name="ClearOtherWebSessionsHelp">Puoi accedere ai siti web che supportano l\'iscrizione tramite Telegram.</string>
     <string name="LoginAttempts">Tentativi di accesso non completi</string>
     <string name="LoginAttemptsInfo">I dispositivi elencati non hanno accesso ai tuoi messaggi. Il codice è stato inserito correttamente, ma la password inserita non è corretta.</string>
@@ -2833,7 +2833,7 @@
     <string name="CancelPasswordQuestion">Sei sicuro di voler interrompere la configurazione della verifica in due passaggi?</string>
     <string name="CancelEmailQuestion">Sei sicuro di voler interrompere la configurazione dell\'email di recupero?</string>
     <string name="CancelEmailQuestionTitle">Interrompi configurazione</string>
-    <string name="TurnPasswordOffPassport">Attenzione! Tutti i dati salvati nel tuo Telegram Passport andranno persi!</string>
+    <string name="TurnPasswordOffPassport">Attenzione! Tutti i dati salvati nel tuo TGPro Passport andranno persi!</string>
     <string name="PasswordHint">Suggerimento password</string>
     <string name="PasswordHintPlaceholder">Suggerimento</string>
     <string name="PasswordHintText">Crea un suggerimento per la tua password</string>
@@ -2908,7 +2908,7 @@
     <string name="PrivacyPhoneTitle">Chi può vedere il mio numero?</string>
     <string name="PrivacyPhoneTitle2">Chi può trovarmi con il mio numero</string>
     <string name="PrivacyPhoneInfo">Gli utenti che hanno il tuo numero salvato in rubrica lo vedranno anche su Telegram.</string>
-    <string name="PrivacyPhoneInfo3">Gli utenti che aggiungono il tuo numero ai loro contatti lo vedranno su Telegram solo se sono tuoi contatti.</string>
+    <string name="PrivacyPhoneInfo3">Gli utenti che aggiungono il tuo numero ai loro contatti lo vedranno su TGPro solo se sono tuoi contatti.</string>
     <string name="PrivacyPhoneInfo2">Puoi aggiungere utenti o interi gruppi come eccezioni che annulleranno le impostazioni precedenti.</string>
     <string name="PrivacyForwards">Messaggi inoltrati</string>
     <string name="PrivacyForwardsEverybody">Collega al tuo account</string>
@@ -2925,11 +2925,11 @@
     <string name="PrivacyPaymentsClear">Cancella info di pagamento e spedizione</string>
     <string name="PrivacyPaymentsClearAlertTitle">Cancella info di pagamento</string>
     <string name="PrivacyPaymentsClearAlertText">Sei sicuro di voler eliminare le tue info di pagamento e spedizione?</string>
-    <string name="PrivacyPaymentsClearAlert">Eliminare le tue info di spedizione e ordinare a tutti i fornitori dei pagamenti di rimuovere le tue carte di credito salvate? Ricorda che Telegram non archivia mai i dati della tua carta di credito.</string>
+    <string name="PrivacyPaymentsClearAlert">Eliminare le tue info di spedizione e ordinare a tutti i fornitori dei pagamenti di rimuovere le tue carte di credito salvate? Ricorda che TGPro non archivia mai i dati della tua carta di credito.</string>
     <string name="PrivacyPaymentsPaymentInfoCleared">Info di pagamento cancellate.</string>
     <string name="PrivacyPaymentsShippingInfoCleared">Info di spedizione cancellate.</string>
     <string name="PrivacyPaymentsPaymentShippingCleared">Info di pagamento e spedizione cancellate.</string>
-    <string name="PrivacyBotsInfo">Siti web in cui hai usato Telegram per accedere.</string>
+    <string name="PrivacyBotsInfo">Siti web in cui hai usato TGPro per accedere.</string>
     <string name="PrivacyClearShipping">Info di spedizione</string>
     <string name="PrivacyClearPayment">Info di pagamento</string>
     <string name="PrivacyDeleteCloudDrafts">Elimina tutte le bozze cloud</string>
@@ -2981,7 +2981,7 @@
     <string name="InviteToGroupError">Spiacenti, non puoi aggiungere questo utente al gruppo a causa delle sue impostazioni di privacy.</string>
     <string name="InviteToChannelError">Spiacenti, non puoi aggiungere questo utente al canale a causa delle sue impostazioni di privacy.</string>
     <string name="CreateGroupError">Spiacenti, non puoi creare un gruppo con questi utenti a causa delle loro impostazioni di privacy.</string>
-    <string name="PrivacyCallsP2PHelp">Disattivando il peer-to-peer, tutte le chiamate saranno inviate tramite i server di Telegram per evitare di rivelare l\'indirizzo IP, ma la qualità audio e video potrebbe diminuire leggermente.</string>
+    <string name="PrivacyCallsP2PHelp">Disattivando il peer-to-peer, tutte le chiamate saranno inviate tramite i server di TGPro per evitare di rivelare l\'indirizzo IP, ma la qualità audio e video potrebbe diminuire leggermente.</string>
     <string name="SyncContactsDelete">Elimina i contatti sincronizzati</string>
     <string name="SuggestContacts">Suggerisci contatti frequenti</string>
     <string name="SuggestContactsInfo">Visualizza le persone che contatti di frequente nella parte superiore della sezione di ricerca per un accesso rapido.</string>
@@ -3153,9 +3153,9 @@
     <string name="DeleteAll">Elimina tutto</string>
     <string name="StopLoading">Terminare il caricamento?</string>
     <string name="UpdateTelegram">Aggiorna Telegram</string>
-    <string name="UpdateAppAlert">Spiacenti, la tua app Telegram è obsoleta e non può gestire la richiesta. Per favore aggiorna Telegram.</string>
+    <string name="UpdateAppAlert">Spiacenti, la tua app TGPro è obsoleta e non può gestire la richiesta. Per favore aggiorna Telegram.</string>
     <string name="InvalidPhoneNumber">Numero di telefono non valido. Per favore controlla il numero e riprova.</string>
-    <string name="PleaseLoginPassport">Per favore accedi al tuo account Telegram per usare Telegram Passport.</string>
+    <string name="PleaseLoginPassport">Per favore accedi al tuo account TGPro per usare TGPro Passport.</string>
     <string name="BannedPhoneNumber">Questo numero è stato bloccato.</string>
     <string name="CodeExpired">Codice scaduto, per favore riprova l\'accesso.</string>
     <string name="FloodWait">Troppi tentativi, per favore riprova più tardi.</string>
@@ -3183,7 +3183,7 @@
     <string name="SendMessagesToText">Vuoi inviare questo messaggio a **%1$s**?</string>
     <string name="SendGameToText">Vuoi condividere questo gioco con **%1$s**?</string>
     <string name="SendContactToText">Vuoi inviare questo contatto a **%1$s**?</string>
-    <string name="AreYouSureLogout">Sei sicuro di voler uscire?\n\nNota che puoi usare Telegram su tutti i tuoi dispositivi contemporaneamente.\n\nRicorda, uscendo eliminerai tutte le chat segrete.</string>
+    <string name="AreYouSureLogout">Sei sicuro di voler uscire?\n\nNota che puoi usare TGPro su tutti i tuoi dispositivi contemporaneamente.\n\nRicorda, uscendo eliminerai tutte le chat segrete.</string>
     <string name="DeleteFewChatsTitle">Elimina %1$s</string>
     <string name="ClearFewChatsTitle">Svuota %1$s</string>
     <string name="ClearCacheFewChatsTitle">Svuota cache per %1$s</string>
@@ -3240,15 +3240,15 @@
     <string name="SendMessagesToGroupText">Vuoi inviare questo messaggio a **%1$s**?</string>
     <string name="SendGameToGroupText">Vuoi condividere questo gioco con **%1$s**?</string>
     <string name="SendContactToGroupText">Vuoi inviare questo contatto a **%1$s**?</string>
-    <string name="NoUsernameFound">Non esiste alcun account Telegram con questo username.</string>
+    <string name="NoUsernameFound">Non esiste alcun account TGPro con questo username.</string>
     <string name="BotCantJoinGroups">Questo bot non può unirsi ai gruppi.</string>
     <string name="SecretLinkPreviewAlert">Attivare le anteprime estese per i link nelle Chat segrete? Ricorda che le anteprime dei link sono generate sui server di Telegram.</string>
     <string name="SecretChatContextBotAlert">Per favore nota che i bot inline sono forniti da sviluppatori di terze parti. Per far funzionare il bot, i caratteri che digiti dopo l\'username del bot sono inviati al suo sviluppatore.</string>
     <string name="EditMessageError">Spiacenti, non puoi modificare questo messaggio.</string>
-    <string name="AllowReadCall">Per favore consenti a Telegram di ricevere chiamate così potremo inserire in automatico il codice per te.</string>
-    <string name="AllowReadCallAndLog">Per favore permetti a Telegram di ricevere chiamate e leggere il registro delle chiamate in modo da poter inserire il codice per te automaticamente.</string>
-    <string name="AllowReadCallLog">Per favore permetti a Telegram di leggere il registro delle chiamate in modo da poter inserire il codice per te automaticamente.</string>
-    <string name="AllowFillNumber">Per favore consenti a Telegram di ricevere chiamate, così potremo confermare automaticamente il tuo numero di telefono.</string>
+    <string name="AllowReadCall">Per favore consenti a TGPro di ricevere chiamate così potremo inserire in automatico il codice per te.</string>
+    <string name="AllowReadCallAndLog">Per favore permetti a TGPro di ricevere chiamate e leggere il registro delle chiamate in modo da poter inserire il codice per te automaticamente.</string>
+    <string name="AllowReadCallLog">Per favore permetti a TGPro di leggere il registro delle chiamate in modo da poter inserire il codice per te automaticamente.</string>
+    <string name="AllowFillNumber">Per favore consenti a TGPro di ricevere chiamate, così potremo confermare automaticamente il tuo numero di telefono.</string>
     <string name="UserRestricted">Spiacenti, questa azione non ti è permessa.</string>
     <string name="YouBlockedUser">Spiacenti, non puoi aggiungere questo utente o bot al gruppo perché lo hai bloccato. Per favore sbloccalo per procedere.</string>
     <string name="JoinGroup">UNISCITI AL GRUPPO</string>
@@ -3262,25 +3262,25 @@
     <string name="ErrorSendRestrictedStickersAll">Spiacenti, non è permesso inviare sticker in questo gruppo.</string>
     <string name="ErrorSendRestrictedMediaAll">Spiacenti, non è permesso inviare media in questo gruppo.</string>
     <string name="ErrorSendRestrictedPollsAll">Spiacenti, non è permesso inviare sondaggi in questo gruppo.</string>
-    <string name="TosDecline">Siamo spiacenti, ma questo significa che non puoi iscriverti a Telegram.\n\nA differenza di altri, non utilizziamo i tuoi dati per il targeting degli annunci o altri scopi commerciali. Telegram conserva solo le informazioni di cui ha bisogno per funzionare come servizio cloud ricco di funzionalità. Puoi regolare il modo in cui utilizziamo i tuoi dati (ad esempio, eliminando i contatti sincronizzati) nelle impostazioni di Privacy e sicurezza.\n\nMa se in genere non sei d\'accordo con le modeste esigenze di Telegram, non sarà possibile per noi fornirti questo servizio.</string>
+    <string name="TosDecline">Siamo spiacenti, ma questo significa che non puoi iscriverti a Telegram.\n\nA differenza di altri, non utilizziamo i tuoi dati per il targeting degli annunci o altri scopi commerciali. TGPro conserva solo le informazioni di cui ha bisogno per funzionare come servizio cloud ricco di funzionalità. Puoi regolare il modo in cui utilizziamo i tuoi dati (ad esempio, eliminando i contatti sincronizzati) nelle impostazioni di Privacy e sicurezza.\n\nMa se in genere non sei d\'accordo con le modeste esigenze di Telegram, non sarà possibile per noi fornirti questo servizio.</string>
     <string name="TosAgeTitle">Verifica età</string>
     <string name="PrivacyPolicyAndTerms">Informativa sulla privacy e Termini di servizio</string>
     <string name="TosAgeText">Tocca Accetta per confermare di avere almeno %1$s anni.</string>
-    <string name="TosUpdateDecline">Siamo molto dispiaciuti, ma questo significa che dobbiamo separarci qui. A differenza di altri, non utilizziamo i tuoi dati per il targeting degli annunci o altri scopi commerciali. Telegram memorizza solo le informazioni necessarie per funzionare come servizio cloud ricco di funzionalità. Puoi regolare il modo in cui utilizziamo i tuoi dati (ad esempio, eliminando i contatti sincronizzati) nelle impostazioni di Privacy e sicurezza.\n\nMa se in genere non sei d\'accordo con le modeste esigenze di Telegram, non sarà possibile per noi fornire questo servizio. Puoi eliminare il tuo account ora — o guardarti intorno ancora e cancellarlo più tardi se ritieni di non essere soddisfatto del modo in cui usiamo i tuoi dati.</string>
-    <string name="TosDeclineDeleteAccount">Attenzione, questo cancellerà irreversibilmente il tuo account Telegram insieme a tutti i dati che archivi nel cloud di Telegram.\n\nImportante: Puoi annullare adesso ed esportare i tuoi dati prima di eliminare il tuo account invece che perdere tutto. (Per farlo, apri l\'ultima versione di Telegram Desktop e vai in Impostazioni &gt; Avanzate &gt; Esporta dati Telegram.)</string>
+    <string name="TosUpdateDecline">Siamo molto dispiaciuti, ma questo significa che dobbiamo separarci qui. A differenza di altri, non utilizziamo i tuoi dati per il targeting degli annunci o altri scopi commerciali. TGPro memorizza solo le informazioni necessarie per funzionare come servizio cloud ricco di funzionalità. Puoi regolare il modo in cui utilizziamo i tuoi dati (ad esempio, eliminando i contatti sincronizzati) nelle impostazioni di Privacy e sicurezza.\n\nMa se in genere non sei d\'accordo con le modeste esigenze di Telegram, non sarà possibile per noi fornire questo servizio. Puoi eliminare il tuo account ora — o guardarti intorno ancora e cancellarlo più tardi se ritieni di non essere soddisfatto del modo in cui usiamo i tuoi dati.</string>
+    <string name="TosDeclineDeleteAccount">Attenzione, questo cancellerà irreversibilmente il tuo account TGPro insieme a tutti i dati che archivi nel cloud di Telegram.\n\nImportante: Puoi annullare adesso ed esportare i tuoi dati prima di eliminare il tuo account invece che perdere tutto. (Per farlo, apri l\'ultima versione di TGPro Desktop e vai in Impostazioni &gt; Avanzate &gt; Esporta dati Telegram.)</string>
     <!--permissions-->
     <string name="PermissionContacts">Per farti connettere con i tuoi amici su tutti i tuoi dispositivi, i tuoi contatti saranno sincronizzati di continuo con i server cloud fortemente criptati di Telegram.</string>
-    <string name="PermissionStorage">Telegram deve accedere alla tua memoria per poter inviare e salvare foto, video, musica e altri media.</string>
-    <string name="PermissionNoAudio">Telegram deve accedere al microfono affinché tu possa inviare messaggi vocali.</string>
-    <string name="PermissionNoAudioVideo">Telegram deve accedere al microfono affinché tu possa registrare video.</string>
-    <string name="PermissionNoCamera">Telegram deve accedere alla fotocamera affinché tu possa scattare foto e registrare video. Per favore attivalo nelle Impostazioni.</string>
-    <string name="PermissionNoLocation">Telegram deve accedere alla tua posizione affinché tu possa condividerla con i tuoi amici.</string>
-    <string name="PermissionNoLocationPosition">Telegram deve accedere alla tua posizione.</string>
-    <string name="PermissionDrawAboveOtherApps">Telegram deve accedere allo spostamento su altre app per riprodurre i video in modalità Picture-in-Picture.</string>
+    <string name="PermissionStorage">TGPro deve accedere alla tua memoria per poter inviare e salvare foto, video, musica e altri media.</string>
+    <string name="PermissionNoAudio">TGPro deve accedere al microfono affinché tu possa inviare messaggi vocali.</string>
+    <string name="PermissionNoAudioVideo">TGPro deve accedere al microfono affinché tu possa registrare video.</string>
+    <string name="PermissionNoCamera">TGPro deve accedere alla fotocamera affinché tu possa scattare foto e registrare video. Per favore attivalo nelle Impostazioni.</string>
+    <string name="PermissionNoLocation">TGPro deve accedere alla tua posizione affinché tu possa condividerla con i tuoi amici.</string>
+    <string name="PermissionNoLocationPosition">TGPro deve accedere alla tua posizione.</string>
+    <string name="PermissionDrawAboveOtherApps">TGPro deve accedere allo spostamento su altre app per riprodurre i video in modalità Picture-in-Picture.</string>
     <string name="PermissionDrawAboveOtherAppsGroupCall">La modalità overlay ti consente di utilizzare il push-to-talk e vedere chi sta parlando anche quando sei fuori da Telegram.</string>
     <string name="PermissionOpenSettings">IMPOSTAZIONI</string>
-    <string name="PermissionXiaomiLockscreen">Per favore consenti a Telegram di essere visualizzato sulla schermata di blocco in modo che le chiamate possano funzionare correttamente.</string>
-    <string name="PermissionBackgroundLocation">Per condividere la posizione in tempo reale in questa chat, Telegram ha bisogno di accedere alla tua posizione per tutto il tempo, anche quando l\'applicazione è in background.\n\nAccederemo alla tua posizione solo per la durata da te scelta, e potrai smettere di condividerla in qualsiasi momento. Non useremo la tua posizione per nessun altro scopo se non quello di condividerla in questa chat.</string>
+    <string name="PermissionXiaomiLockscreen">Per favore consenti a TGPro di essere visualizzato sulla schermata di blocco in modo che le chiamate possano funzionare correttamente.</string>
+    <string name="PermissionBackgroundLocation">Per condividere la posizione in tempo reale in questa chat, TGPro ha bisogno di accedere alla tua posizione per tutto il tempo, anche quando l\'applicazione è in background.\n\nAccederemo alla tua posizione solo per la durata da te scelta, e potrai smettere di condividerla in qualsiasi momento. Non useremo la tua posizione per nessun altro scopo se non quello di condividerla in questa chat.</string>
     <string name="PermissionDrawAboveOtherAppsTitle">Picture-in-Picture</string>
     <string name="PermissionDrawAboveOtherAppsGroupCallTitle">Overlay chat vocale</string>
     <!--charts-->
@@ -3366,7 +3366,7 @@
     <string name="ViewMessageStatistic">Statistiche messaggio</string>
     <string name="ViewMessage">Apri messaggio</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
+    <string name="Page1Title">TGPro</string>
     <string name="Page2Title">Veloce</string>
     <string name="Page3Title">Gratis</string>
     <string name="Page4Title">Sicuro</string>
@@ -3394,7 +3394,7 @@
     <string name="VoipBusy">Linea occupata</string>
     <string name="VoipInCallBranding">Chiamata Telegram</string>
     <string name="VoipInVideoCallBranding">Videochiamata Telegram</string>
-    <string name="VoipOutgoingCall">Chiamata Telegram in corso</string>
+    <string name="VoipOutgoingCall">Chiamata TGPro in corso</string>
     <string name="VoipVoiceChat">Chat vocale in corso</string>
     <string name="VoipEndCall">Termina</string>
     <string name="VoipOngoingAlertTitle">Altra chiamata in corso</string>
@@ -3445,12 +3445,12 @@
     <string name="NoRecentCallsInfo">Le tue chiamate e videochiamate recenti\nappariranno qui.</string>
     <string name="VoipPeerIncompatible">L\'app di **%1$s** sta usando un protocollo non compatibile. Deve aggiornare la sua app prima che tu possa chiamarlo.</string>
     <string name="VoipPeerOutdated">L\'app di **%1$s** non supporta le chiamate. Deve aggiornare la sua app prima che tu possa chiamarlo.</string>
-    <string name="VoipPeerVideoOutdated">Spiacenti, **%1$s** sta usando una vecchia versione di Telegram che non supporta le videochiamate.</string>
+    <string name="VoipPeerVideoOutdated">Spiacenti, **%1$s** sta usando una vecchia versione di TGPro che non supporta le videochiamate.</string>
     <string name="VoipPeerVideoOutdatedMakeVoice">Chiamata vocale</string>
     <string name="VoipRateCallAlert">Per favore valuta la qualità della tua chiamata Telegram</string>
-    <string name="VoipNeedMicPermission">Telegram deve accedere al microfono affinché tu possa effettuare chiamate.</string>
-    <string name="VoipNeedMicCameraPermission">Telegram deve accedere al tuo microfono e alla tua videocamera affinché tu possa effettuare videochiamate.</string>
-    <string name="VoipNeedCameraPermission">Telegram deve accedere alla tua fotocamera affinché tu possa effettuare videochiamate.</string>
+    <string name="VoipNeedMicPermission">TGPro deve accedere al microfono affinché tu possa effettuare chiamate.</string>
+    <string name="VoipNeedMicCameraPermission">TGPro deve accedere al tuo microfono e alla tua videocamera affinché tu possa effettuare videochiamate.</string>
+    <string name="VoipNeedCameraPermission">TGPro deve accedere alla tua fotocamera affinché tu possa effettuare videochiamate.</string>
     <string name="VoipFeedbackCommentHint">Aggiungi un commento facoltativo</string>
     <string name="CallBack">Richiama</string>
     <string name="CallAgain">Richiama</string>
@@ -3471,7 +3471,7 @@
     <string name="CallReportHint">Cosa è andato storto?</string>
     <string name="CallReportIncludeLogs">Includi informazioni tecniche</string>
     <string name="CallReportLogsExplain">Non rivela i contenuti della chat e ci aiuta a risolvere il problema più velocemente.</string>
-    <string name="CallReportSent">Grazie per aver contribuito a rendere le chiamate di Telegram migliori.</string>
+    <string name="CallReportSent">Grazie per aver contribuito a rendere le chiamate di TGPro migliori.</string>
     <string name="VoipAnsweringAsAccount">rispondi come %s</string>
     <string name="VoipQuickReplies">Rispondi con messaggio</string>
     <string name="VoipQuickRepliesExplain">Queste risposte rapide sono disponibili quando rispondi ad una chiamata in entrata con un messaggio Telegram. Modificale a tuo piacimento.</string>
@@ -3481,9 +3481,9 @@
     <string name="QuickReplyDefault4">Non posso parlare ora. Mi richiami più tardi?</string>
     <string name="QuickReplyCustom">Messaggio personalizzato...</string>
     <string name="AllowCustomQuickReply">Consenti personalizzazione</string>
-    <string name="VoipInCallBrandingWithName">Chiamata Telegram a %s</string>
-    <string name="VoipInVideoCallBrandingWithName">Videochiamata Telegram a %s</string>
-    <string name="VoipErrorUnknown">Impossibile effettuare una chiamata Telegram al momento.</string>
+    <string name="VoipInCallBrandingWithName">Chiamata TGPro a %s</string>
+    <string name="VoipInVideoCallBrandingWithName">Videochiamata TGPro a %s</string>
+    <string name="VoipErrorUnknown">Impossibile effettuare una chiamata TGPro al momento.</string>
     <string name="RateCallEcho">Sentivo la mia stessa voce</string>
     <string name="RateCallNoise">Sentivo dei rumori di fondo</string>
     <string name="RateCallInterruptions">Sentivo gli altri a tratti</string>
@@ -3685,8 +3685,8 @@
     <!--invite links-->
     <string name="ManageInviteLinks">Gestisci i link d\'invito</string>
     <string name="ManageLinksInfoHelp">Puoi creare link d\'invito aggiuntivi che hanno una durata o un numero di utilizzi limitato.</string>
-    <string name="PrimaryLinkHelp">Chiunque su Telegram potrà unirsi al tuo gruppo tramite questo link.</string>
-    <string name="PrimaryLinkHelpChannel">Chiunque su Telegram potrà unirsi al tuo canale tramite questo link.</string>
+    <string name="PrimaryLinkHelp">Chiunque su TGPro potrà unirsi al tuo gruppo tramite questo link.</string>
+    <string name="PrimaryLinkHelpChannel">Chiunque su TGPro potrà unirsi al tuo canale tramite questo link.</string>
     <string name="EditLink">Modifica link</string>
     <string name="SaveLink">Salva link</string>
     <string name="NoLimit">∞</string>
@@ -3717,15 +3717,15 @@
     <string name="DeleteAllRevokedLinks">Elimina tutti i link revocati</string>
     <string name="NoOneJoined">Non ancora usato</string>
     <string name="LinkLimitReached">Limite raggiunto</string>
-    <string name="QRCodeLinkHelpGroup">Chiunque su Telegram può scansionare questo codice per unirsi al tuo gruppo.</string>
+    <string name="QRCodeLinkHelpGroup">Chiunque su TGPro può scansionare questo codice per unirsi al tuo gruppo.</string>
     <string name="DeleteLinkHelp">Questo eliminerà il link.</string>
     <string name="DeleteAllRevokedLinkHelp">Questo eliminerà tutti i link revocati.</string>
     <string name="CreateNewLinkHelp">Puoi generare link d\'invito che scadranno dopo essere stati usati.</string>
     <string name="LinksCreatedByThisAdmin">Link creati da questo amministratore</string>
     <string name="LinksCreatedByOtherAdmins">Link creati da altri amministratori</string>
     <string name="PermanentLinkForThisAdmin">Link per questo amministratore</string>
-    <string name="QRCodeLinkHelpChannel">Chiunque su Telegram può scansionare questo codice per unirsi al tuo canale.</string>
-    <string name="LinkInfoChannel">Chiunque abbia Telegram installato potrà unirsi al tuo canale tramite questo link.</string>
+    <string name="QRCodeLinkHelpChannel">Chiunque su TGPro può scansionare questo codice per unirsi al tuo canale.</string>
+    <string name="LinkInfoChannel">Chiunque abbia TGPro installato potrà unirsi al tuo canale tramite questo link.</string>
     <string name="LinkExpiresInTime">Questo link scade tra %s</string>
     <string name="PublicLink">Link pubblico</string>
     <string name="InviteExpired">Questo link d\'invito è scaduto.</string>
@@ -3768,12 +3768,12 @@
     <string name="TelegramContacts_few">%1$d contatti su Telegram</string>
     <string name="TelegramContacts_many">%1$d contatti su Telegram</string>
     <string name="TelegramContacts_other">%1$d contatti su Telegram</string>
-    <string name="InviteTextNum_zero">Ehi, sto usando Telegram per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
-    <string name="InviteTextNum_one">Ehi, sto usando Telegram per chattare – così come %1$d altro dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
-    <string name="InviteTextNum_two">Ehi, sto usando Telegram per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
-    <string name="InviteTextNum_few">Ehi, sto usando Telegram per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
-    <string name="InviteTextNum_many">Ehi, sto usando Telegram per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
-    <string name="InviteTextNum_other">Ehi, sto usando Telegram per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_zero">Ehi, sto usando TGPro per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_one">Ehi, sto usando TGPro per chattare – così come %1$d altro dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_two">Ehi, sto usando TGPro per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_few">Ehi, sto usando TGPro per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_many">Ehi, sto usando TGPro per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
+    <string name="InviteTextNum_other">Ehi, sto usando TGPro per chattare – così come altri %1$d dei nostri contatti. Unisciti a noi! Scaricalo qui: %2$s</string>
     <string name="PeopleJoined_zero">%1$d persone si sono unite</string>
     <string name="PeopleJoined_one">%1$d persona si è unita</string>
     <string name="PeopleJoined_two">%1$d persone si sono unite</string>

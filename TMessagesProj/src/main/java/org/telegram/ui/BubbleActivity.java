@@ -42,6 +42,7 @@ public class BubbleActivity extends BasePermissionsActivity implements INavigati
     private ArrayList<BaseFragment> mainFragmentsStack = new ArrayList<>();
 
     private PasscodeView passcodeView;
+
     private INavigationLayout actionBarLayout;
     protected DrawerLayoutContainer drawerLayoutContainer;
 

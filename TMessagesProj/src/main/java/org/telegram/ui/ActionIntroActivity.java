@@ -9,6 +9,7 @@
 package org.telegram.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -95,6 +96,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
     public static final int ACTION_TYPE_NEARBY_LOCATION_ENABLED = 4;
     public static final int ACTION_TYPE_QR_LOGIN = 5;
     public static final int ACTION_TYPE_SET_PASSCODE = 6;
+    public static final int ACTION_TYPE_SET_PASSMODE = 7;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -104,7 +106,8 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
             ACTION_TYPE_CHANGE_PHONE_NUMBER,
             ACTION_TYPE_NEARBY_LOCATION_ENABLED,
             ACTION_TYPE_QR_LOGIN,
-            ACTION_TYPE_SET_PASSCODE
+            ACTION_TYPE_SET_PASSCODE,
+            ACTION_TYPE_SET_PASSMODE
     })
     public @interface ActionType {}
 
@@ -184,7 +187,10 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                         }
                         break;
                     }
+
+
                     case ACTION_TYPE_SET_PASSCODE:
+                    case ACTION_TYPE_SET_PASSMODE:
                     case ACTION_TYPE_NEARBY_LOCATION_ACCESS:
                     case ACTION_TYPE_NEARBY_LOCATION_ENABLED: {
                         if (currentType == ACTION_TYPE_SET_PASSCODE) {
@@ -192,6 +198,13 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                         } else {
                             imageView.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY));
                         }
+
+                        if (currentType == ACTION_TYPE_SET_PASSMODE) {
+                            imageView.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(140), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(140), MeasureSpec.EXACTLY));
+                        } else {
+                            imageView.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.EXACTLY));
+                        }
+
                         if (width > height) {
                             titleTextView.measure(MeasureSpec.makeMeasureSpec((int) (width * 0.6f), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED));
                             descriptionText.measure(MeasureSpec.makeMeasureSpec((int) (width * 0.6f), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED));
@@ -200,6 +213,12 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                             titleTextView.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED));
                             descriptionText.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.UNSPECIFIED));
                             if (currentType == ACTION_TYPE_SET_PASSCODE) {
+                                buttonTextView.measure(MeasureSpec.makeMeasureSpec(width - AndroidUtilities.dp(24 * 2), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50), MeasureSpec.EXACTLY));
+                            } else {
+                                buttonTextView.measure(MeasureSpec.makeMeasureSpec(width - AndroidUtilities.dp(72), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50), MeasureSpec.EXACTLY));
+                            }
+
+                            if (currentType == ACTION_TYPE_SET_PASSMODE) {
                                 buttonTextView.measure(MeasureSpec.makeMeasureSpec(width - AndroidUtilities.dp(24 * 2), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50), MeasureSpec.EXACTLY));
                             } else {
                                 buttonTextView.measure(MeasureSpec.makeMeasureSpec(width - AndroidUtilities.dp(72), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(50), MeasureSpec.EXACTLY));
@@ -332,7 +351,8 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                         }
                         break;
                     }
-                    case ACTION_TYPE_SET_PASSCODE: {
+                    case ACTION_TYPE_SET_PASSCODE:
+                    case ACTION_TYPE_SET_PASSMODE: {
                         if (r > b) {
                             int y = (height - imageView.getMeasuredHeight()) / 2;
                             int x = (int) (width * 0.5f - imageView.getMeasuredWidth()) / 2;
@@ -500,7 +520,7 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
         descriptionText.setGravity(Gravity.CENTER_HORIZONTAL);
         descriptionText.setLineSpacing(AndroidUtilities.dp(2), 1);
         descriptionText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        if (currentType == ACTION_TYPE_SET_PASSCODE || currentType == ACTION_TYPE_CHANGE_PHONE_NUMBER) {
+        if ((currentType == ACTION_TYPE_SET_PASSCODE || currentType == ACTION_TYPE_SET_PASSMODE) || currentType == ACTION_TYPE_CHANGE_PHONE_NUMBER) {
             descriptionText.setPadding(AndroidUtilities.dp(48), 0, AndroidUtilities.dp(48), 0);
         } else if (currentType == ACTION_TYPE_NEARBY_GROUP_CREATE) {
             descriptionText.setPadding(AndroidUtilities.dp(24), 0, AndroidUtilities.dp(24), 0);
@@ -631,6 +651,10 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     presentFragment(new PasscodeActivity(PasscodeActivity.TYPE_SETUP_CODE), true);
                     break;
                 }
+                case ACTION_TYPE_SET_PASSMODE: {
+                    presentFragment(new PassmodeActivity(PassmodeActivity.TYPE_SETUP_CODE), true);
+                    break;
+                }
                 case ACTION_TYPE_NEARBY_LOCATION_ACCESS: {
                     getParentActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, BasePermissionsActivity.REQUEST_CODE_GEOLOCATION);
                     break;
@@ -692,6 +716,23 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                 titleTextView.setText(LocaleController.getString("Passcode", R.string.Passcode));
                 descriptionText.setText(LocaleController.getString("ChangePasscodeInfoShort", R.string.ChangePasscodeInfoShort));
                 buttonTextView.setText(LocaleController.getString("EnablePasscode", R.string.EnablePasscode));
+                imageView.playAnimation();
+                flickerButton = true;
+                break;
+            }
+            case ACTION_TYPE_SET_PASSMODE: {
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setAnimation(R.raw.utyan_passmode, 200, 200);
+                imageView.setFocusable(false);
+                imageView.setOnClickListener(v -> {
+                    if (!imageView.getAnimatedDrawable().isRunning()) {
+                        imageView.getAnimatedDrawable().setCurrentFrame(0, false);
+                        imageView.playAnimation();
+                    }
+                });
+                titleTextView.setText(LocaleController.getString("Passmode", R.string.Passmode));
+                descriptionText.setText(LocaleController.getString("ChangePassmodeInfoShort", R.string.ChangePassmodeInfoShort));
+                buttonTextView.setText(LocaleController.getString("EnablePassmode", R.string.EnablePassmode));
                 imageView.playAnimation();
                 flickerButton = true;
                 break;

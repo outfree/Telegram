@@ -16,6 +16,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +31,8 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
@@ -69,6 +73,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.LocationController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -87,6 +92,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BasePermissionsActivity;
 import org.telegram.ui.Cells.PhotoAttachCameraCell;
@@ -115,20 +121,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private LinearLayoutManager cameraPhotoLayoutManager;
     private PhotoAttachAdapter cameraAttachAdapter;
 
-    private ActionBarMenuItem dropDownContainer;
+    private boolean checkGpsEnabled = true;
+    private final ActionBarMenuItem dropDownContainer;
     public TextView dropDown;
-    private Drawable dropDownDrawable;
+    private final Drawable dropDownDrawable;
 
     public RecyclerListView gridView;
-    private GridLayoutManager layoutManager;
-    private PhotoAttachAdapter adapter;
-    private EmptyTextProgressView progressView;
+    private final GridLayoutManager layoutManager;
+    private final PhotoAttachAdapter adapter;
+    private final EmptyTextProgressView progressView;
     private RecyclerViewItemRangeSelector itemRangeSelector;
     private int gridExtraSpace;
     private boolean shouldSelect;
     private int alertOnlyOnce;
 
-    private Drawable cameraDrawable;
+    private final Drawable cameraDrawable;
 
     private int currentSelectedCount;
 
@@ -141,11 +148,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     protected CameraView cameraView;
     protected FrameLayout cameraIcon;
     protected PhotoAttachCameraCell cameraCell;
-    private TextView recordTime;
-    private ImageView[] flashModeButton = new ImageView[2];
+    private final TextView recordTime;
+    private final ImageView[] flashModeButton = new ImageView[2];
     private boolean flashAnimationInProgress;
-    private float[] cameraViewLocation = new float[2];
-    private int[] viewPosition = new int[2];
+    private final float[] cameraViewLocation = new float[2];
+    private final int[] viewPosition = new int[2];
     private float cameraViewOffsetX;
     private float cameraViewOffsetY;
     private float cameraViewOffsetBottomY;
@@ -153,23 +160,23 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private boolean canSaveCameraPreview;
     private boolean cameraAnimationInProgress;
     private float cameraOpenProgress;
-    private int[] animateCameraValues = new int[5];
+    private final int[] animateCameraValues = new int[5];
     private int videoRecordTime;
     private Runnable videoRecordRunnable;
-    private DecelerateInterpolator interpolator = new DecelerateInterpolator(1.5f);
-    private FrameLayout cameraPanel;
-    private ShutterButton shutterButton;
-    private ZoomControlView zoomControlView;
+    private final DecelerateInterpolator interpolator = new DecelerateInterpolator(1.5f);
+    private final FrameLayout cameraPanel;
+    private final ShutterButton shutterButton;
+    private final ZoomControlView zoomControlView;
     private AnimatorSet zoomControlAnimation;
     private Runnable zoomControlHideRunnable;
-    private TextView counterTextView;
-    private TextView tooltipTextView;
-    private ImageView switchCameraButton;
+    private final TextView counterTextView;
+    private final TextView tooltipTextView;
+    private final ImageView switchCameraButton;
     private boolean takingPhoto;
     private static boolean mediaFromExternalCamera;
-    private static ArrayList<Object> cameraPhotos = new ArrayList<>();
-    private static HashMap<Object, Object> selectedPhotos = new HashMap<>();
-    private static ArrayList<Object> selectedPhotosOrder = new ArrayList<>();
+    private static final ArrayList<Object> cameraPhotos = new ArrayList<>();
+    private static final HashMap<Object, Object> selectedPhotos = new HashMap<>();
+    private static final ArrayList<Object> selectedPhotosOrder = new ArrayList<>();
     private static int lastImageId = -1;
     private boolean cancelTakingPhotos;
     private boolean checkCameraWhenShown;
@@ -183,7 +190,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private float cameraZoom;
     private boolean zooming;
     private boolean zoomWas;
-    private android.graphics.Rect hitRect = new Rect();
+    private final android.graphics.Rect hitRect = new Rect();
 
     private float lastY;
     private boolean pressed;
@@ -199,7 +206,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private boolean deviceHasGoodCamera;
     private boolean noCameraPermissions;
     private boolean noGalleryPermissions;
+
+    private boolean noLocationPermission;
+
+    private boolean noGpsEnabled;
     private boolean requestingPermissions;
+
+    private boolean locationDenied = false;
 
     private boolean ignoreLayout;
     private int lastNotifyWidth;
@@ -209,6 +222,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private ArrayList<MediaController.AlbumEntry> dropDownAlbums;
     private float currentPanTranslationY;
 
+    private Location myLocation;
     private boolean loading = true;
 
     public final static int group = 0;
@@ -218,8 +232,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     public final static int preview_gap = 4;
     public final static int preview = 5;
 
-    private ActionBarMenuSubItem spoilerItem;
-    private ActionBarMenuSubItem compressItem;
+    private final ActionBarMenuSubItem spoilerItem;
+    private final ActionBarMenuSubItem compressItem;
     protected ActionBarMenuSubItem previewItem;
 
     boolean forceDarkTheme;
@@ -338,7 +352,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    private PhotoViewer.PhotoViewerProvider photoViewerProvider = new BasePhotoProvider() {
+    private final PhotoViewer.PhotoViewerProvider photoViewerProvider = new BasePhotoProvider() {
         @Override
         public void onOpen() {
             pauseCameraPreview();
@@ -558,6 +572,25 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return arrayList;
     }
 
+    private LocationController getLocationController() {
+        return parentAlert.baseFragment.getLocationController();
+    }
+    private UserConfig getUserConfig() {
+        return parentAlert.baseFragment.getUserConfig();
+    }
+    @SuppressLint("MissingPermission")
+    public static Location getLastLocation() {
+        LocationManager lm = (LocationManager) ApplicationLoader.applicationContext.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = lm.getProviders(true);
+        Location l = null;
+        for (int i = providers.size() - 1; i >= 0; i--) {
+            l = lm.getLastKnownLocation(providers.get(i));
+            if (l != null) {
+                break;
+            }
+        }
+        return l;
+    }
     public ChatAttachAlertPhotoLayout(ChatAttachAlert alert, Context context, boolean forceDarkTheme, boolean needCamera, Theme.ResourcesProvider resourcesProvider) {
         super(alert, context, resourcesProvider);
         this.forceDarkTheme = forceDarkTheme;
@@ -567,9 +600,12 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         FrameLayout container = alert.getContainer();
         showAvatarConstructor = parentAlert.avatarPicker != 0;
 
+        myLocation = getLastLocation();
+
         cameraDrawable = context.getResources().getDrawable(R.drawable.instant_camera).mutate();
 
         ActionBarMenu menu = parentAlert.actionBar.createMenu();
+
         dropDownContainer = new ActionBarMenuItem(context, menu, 0, 0, resourcesProvider) {
             @Override
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
@@ -719,6 +755,47 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 return;
             }
             if (Build.VERSION.SDK_INT >= 23) {
+
+                if(SharedConfig.coordsPhoto) {
+
+                    if (parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED || parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+                    }
+
+                    if (checkGpsEnabled && parentAlert.baseFragment.getParentActivity() != null) {
+                        checkGpsEnabled = false;
+                        Activity parentActivity;
+                        PackageManager packageManager;
+                        if ((parentActivity = parentAlert.baseFragment.getParentActivity()) != null && (packageManager = parentActivity.getPackageManager()) != null && !packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                            return;
+                        }
+                        try {
+                            LocationManager lm = (LocationManager) ApplicationLoader.applicationContext.getSystemService(Context.LOCATION_SERVICE);
+                            if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(parentAlert.baseFragment.getParentActivity(), resourcesProvider);
+                                builder.setTopAnimation(R.raw.permission_request_location, AlertsCreator.PERMISSIONS_REQUEST_TOP_ICON_SIZE, false, Theme.getColor(Theme.key_dialogTopBackground));
+                                builder.setMessage(LocaleController.getString("GpsDisabledAlertText", R.string.GpsDisabledAlertText));
+                                builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), (dialog, id) -> {
+                                    if (parentAlert.baseFragment.getParentActivity() == null) {
+                                        return;
+                                    }
+                                    try {
+                                        parentAlert.baseFragment.getParentActivity().startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                    } catch (Exception ignore) {
+
+                                    }
+                                });
+                                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                                builder.show();
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+
+                    myLocation = getLastLocation();
+                }
+
                 if (adapter.needCamera && selectedAlbumEntry == galleryAlbumEntry && position == 0 && noCameraPermissions) {
                     try {
                         parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.CAMERA}, 18);
@@ -727,11 +804,20 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     }
                     return;
                 } else if (noGalleryPermissions) {
-                    try {
-                        parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
-                    } catch (Exception ignore) {
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                        try {
+                            parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
+                        } catch (Exception ignore) {
 
+                        }
+                    } else {
+                        try {
+                            parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
+                        } catch (Exception ignore) {
+
+                        }
                     }
+
                     return;
                 }
             }
@@ -1108,12 +1194,16 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                     try {
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = true;
+                        options.inMutable = true;
                         BitmapFactory.decodeFile(new File(cameraFile.getAbsolutePath()).getAbsolutePath(), options);
+
                         width = options.outWidth;
                         height = options.outHeight;
                     } catch (Exception ignore) {}
                     MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, lastImageId--, 0, cameraFile.getAbsolutePath(), orientation.first, false, width, height, 0).setOrientation(orientation);
                     photoEntry.canDeleteAfter = true;
+
+                    //todo
                     openPhotoViewer(photoEntry, sameTakePictureOrientation, false);
                 });
                 cameraView.startTakePictureAnimation();
@@ -1457,6 +1547,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void clearSelectedPhotos() {
         spoilerItem.setText(LocaleController.getString(R.string.EnablePhotoSpoiler));
         spoilerItem.setAnimatedIcon(R.raw.photo_spoiler);
@@ -1504,13 +1595,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
                 int index1 = albums.indexOf(o1);
                 int index2 = albums.indexOf(o2);
-                if (index1 > index2) {
-                    return 1;
-                } else if (index1 < index2) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+                return Integer.compare(index1, index2);
 
             });
         } else {
@@ -1951,6 +2036,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void checkCamera(boolean request) {
         if (parentAlert.baseFragment == null || parentAlert.baseFragment.getParentActivity() == null || !needCamera) {
             return;
@@ -1961,13 +2047,23 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             deviceHasGoodCamera = false;
         } else {
             if (Build.VERSION.SDK_INT >= 23) {
+
                 if (noCameraPermissions = (parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
                     if (request) {
-                        try {
-                            parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, 17);
-                        } catch (Exception ignore) {
+                        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                            try {
+                                parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, 17);
+                            } catch (Exception ignore) {
 
+                            }
+                        } else {
+                            try {
+                                parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, 17);
+                            } catch (Exception ignore) {
+
+                            }
                         }
+
                     }
                     deviceHasGoodCamera = false;
                 } else {
@@ -2691,10 +2787,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         for (int a = 0; a < count; a++) {
             View child = gridView.getChildAt(a);
             if (child instanceof PhotoAttachCameraCell) {
-                if (Build.VERSION.SDK_INT >= 19) {
-                    if (!child.isAttachedToWindow()) {
-                        break;
-                    }
+                if (!child.isAttachedToWindow()) {
+                    break;
                 }
 
                 float topLocal = child.getY() + gridView.getY() + getY();
@@ -2857,9 +2951,17 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     public void checkStorage() {
         if (noGalleryPermissions && Build.VERSION.SDK_INT >= 23) {
-            noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
-            if (!noGalleryPermissions) {
-                loadGalleryPhotos();
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+                if (!noGalleryPermissions) {
+                    loadGalleryPhotos();
+                }
+
+            } else {
+                noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED;
+                if (!noGalleryPermissions) {
+                    loadGalleryPhotos();
+                }
             }
             adapter.notifyDataSetChanged();
             cameraAttachAdapter.notifyDataSetChanged();
@@ -3212,7 +3314,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             }
         }
         if (Build.VERSION.SDK_INT >= 23) {
-            noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;
+
+            }else{
+                noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED;
+
+            }
         }
         if (galleryAlbumEntry != null) {
             for (int a = 0; a < Math.min(100, galleryAlbumEntry.photos.size()); a++) {
@@ -3328,6 +3436,48 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         checkCameraViewPosition();
 
         resumeCameraPreview();
+
+        if(SharedConfig.coordsPhoto) {
+
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED || parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    parentAlert.baseFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+                }
+            }
+
+            if (checkGpsEnabled && parentAlert.baseFragment.getParentActivity() != null) {
+                checkGpsEnabled = false;
+                Activity parentActivity;
+                PackageManager packageManager;
+                if ((parentActivity = parentAlert.baseFragment.getParentActivity()) != null && (packageManager = parentActivity.getPackageManager()) != null && !packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
+                    return;
+                }
+                try {
+                    LocationManager lm = (LocationManager) ApplicationLoader.applicationContext.getSystemService(Context.LOCATION_SERVICE);
+                    if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(parentAlert.baseFragment.getParentActivity(), resourcesProvider);
+                        builder.setTopAnimation(R.raw.permission_request_location, AlertsCreator.PERMISSIONS_REQUEST_TOP_ICON_SIZE, false, Theme.getColor(Theme.key_dialogTopBackground));
+                        builder.setMessage(LocaleController.getString("GpsDisabledAlertText", R.string.GpsDisabledAlertText));
+                        builder.setPositiveButton(LocaleController.getString("ConnectingToProxyEnable", R.string.ConnectingToProxyEnable), (dialog, id) -> {
+                            if (parentAlert.baseFragment.getParentActivity() == null) {
+                                return;
+                            }
+                            try {
+                                parentAlert.baseFragment.getParentActivity().startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            } catch (Exception ignore) {
+
+                            }
+                        });
+                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        builder.show();
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+
+            myLocation = getLastLocation();
+        }
     }
 
     @Override
@@ -3739,9 +3889,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     private class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
 
-        private Context mContext;
-        private boolean needCamera;
-        private ArrayList<RecyclerListView.Holder> viewsCache = new ArrayList<>(8);
+        private final Context mContext;
+        private final boolean needCamera;
+        private final ArrayList<RecyclerListView.Holder> viewsCache = new ArrayList<>(8);
         private int itemsCount;
         private int photosStartRow;
         private int photosEndRow;

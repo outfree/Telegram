@@ -17,11 +17,14 @@ import androidx.core.graphics.ColorUtils;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
 public class CodeFieldContainer extends LinearLayout {
     public final static int TYPE_PASSCODE = 10;
+    public final static int TYPE_PASSMODE = 10;
+
 
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -188,7 +191,7 @@ public class CodeFieldContainer extends LinearLayout {
                     width = 42;
                     height = 47;
                     gapSize = 10;
-                } else if (currentType == LoginActivity.AUTH_TYPE_MISSED_CALL) {
+                }  else if  (currentType == LoginActivity.AUTH_TYPE_MISSED_CALL) {
                     width = 28;
                     height = 34;
                     gapSize = 5;
@@ -251,8 +254,8 @@ public class CodeFieldContainer extends LinearLayout {
                 });
             }
         } else {
-            for (int a = 0; a < codeField.length; a++) {
-                codeField[a].setText("");
+            for (CodeNumberField codeNumberField : codeField) {
+                codeNumberField.setText("");
             }
         }
     }
@@ -266,9 +269,12 @@ public class CodeFieldContainer extends LinearLayout {
             return "";
         }
         StringBuilder codeBuilder = new StringBuilder();
-        for (int a = 0; a < codeField.length; a++) {
-            codeBuilder.append(PhoneFormat.stripExceptNumbers(codeField[a].getText().toString()));
+        for (CodeNumberField codeNumberField : codeField) {
+            codeBuilder.append(PhoneFormat.stripExceptNumbers(codeNumberField.getText().toString()));
         }
+
+        FileLog.e("Code from CodeFieldContainer:" + codeBuilder);
+
         return codeBuilder.toString();
     }
 

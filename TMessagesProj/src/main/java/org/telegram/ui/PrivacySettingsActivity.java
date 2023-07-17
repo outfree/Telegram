@@ -8,6 +8,7 @@
 
 package org.telegram.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -85,6 +87,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private int passwordRow;
     private int sessionsRow;
     private int passcodeRow;
+    private int passmodeRow;
     private int autoDeleteMesages;
     private int sessionsDetailRow;
     private int newChatsHeaderRow;
@@ -117,7 +120,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
     private boolean newSuggest;
     private boolean archiveChats;
 
-    private boolean[] clear = new boolean[2];
+    private final boolean[] clear = new boolean[2];
     SessionsActivity sessionsActivityPreload;
 
     @Override
@@ -201,6 +204,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View createView(Context context) {
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -241,7 +245,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 if (getUserConfig().getGlobalTTl() >= 0) {
                     presentFragment(new AutoDeleteMessagesActivity());
                 }
-            } if (position == blockedRow) {
+            }
+            if (position == blockedRow) {
                 presentFragment(new PrivacyUsersActivity());
             } else if (position == sessionsRow) {
                 sessionsActivityPreload.resetFragment();
@@ -371,7 +376,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
                             try {
                                 fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-                            } catch (Exception ignored) {}
+                            } catch (Exception ignored) {
+                            }
 
                             loadPasswordSettings();
                         })))
@@ -399,13 +405,15 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 }
             } else if (position == passcodeRow) {
                 presentFragment(PasscodeActivity.determineOpenFragment());
+            } else if (position == passmodeRow) {
+                presentFragment(PassmodeActivity.determineOpenFragment());
             } else if (position == secretWebpageRow) {
                 if (getMessagesController().secretWebpagePreview == 1) {
                     getMessagesController().secretWebpagePreview = 0;
                 } else {
                     getMessagesController().secretWebpagePreview = 1;
                 }
-                MessagesController.getGlobalMainSettings().edit().putInt("secretWebpage2", getMessagesController().secretWebpagePreview).commit();
+                MessagesController.getGlobalMainSettings().edit().putInt("secretWebpage2", getMessagesController().secretWebpagePreview).apply();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(getMessagesController().secretWebpagePreview == 1);
                 }
@@ -494,7 +502,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     clear[a] = true;
                     CheckBoxCell checkBoxCell = new CheckBoxCell(getParentActivity(), 1, 21, null);
                     checkBoxCell.setTag(a);
-                    checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+                    checkBoxCell.setBackground(Theme.getSelectorDrawable(false));
                     checkBoxCell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
                     linearLayout.addView(checkBoxCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 50));
                     checkBoxCell.setText(name, null, true, false);
@@ -564,6 +572,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         return fragmentView;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
         if (id == NotificationCenter.privacyRulesUpdated) {
@@ -587,7 +596,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 loadPasswordSettings();
                 updateRows();
             }
-        } if (id == NotificationCenter.didUpdateGlobalAutoDeleteTimer) {
+        }
+        if (id == NotificationCenter.didUpdateGlobalAutoDeleteTimer) {
             if (listAdapter != null) {
                 listAdapter.notifyItemChanged(autoDeleteMesages);
             }
@@ -598,6 +608,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         updateRows(true);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateRows(boolean notify) {
         rowCount = 0;
 
@@ -605,6 +616,16 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         passwordRow = rowCount++;
         autoDeleteMesages = rowCount++;
         passcodeRow = rowCount++;
+
+        if (SharedConfig.passcodeHash.length() != 0) {
+            passmodeRow = rowCount++;
+        } else {
+            passmodeRow = -1;
+        }
+
+
+
+        passwordRow = rowCount++;
         if (currentPassword != null ? currentPassword.login_email_pattern != null : SharedConfig.hasEmailLogin) {
             emailLoginRow = rowCount++;
         } else {
@@ -829,6 +850,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         return "unknown";
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume() {
         super.onResume();
@@ -839,7 +861,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;
@@ -848,7 +870,8 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == passcodeRow || position == passwordRow || position == blockedRow || position == sessionsRow || position == secretWebpageRow || position == webSessionsRow ||
+
+            return position == passcodeRow || position == passmodeRow || position == passwordRow || position == blockedRow || position == sessionsRow || position == secretWebpageRow || position == webSessionsRow ||
                     position == groupsRow && !getContactsController().getLoadingPrivacyInfo(ContactsController.PRIVACY_RULES_TYPE_INVITE) ||
                     position == lastSeenRow && !getContactsController().getLoadingPrivacyInfo(ContactsController.PRIVACY_RULES_TYPE_LASTSEEN) ||
                     position == callsRow && !getContactsController().getLoadingPrivacyInfo(ContactsController.PRIVACY_RULES_TYPE_CALLS) ||
@@ -867,8 +890,9 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             return rowCount;
         }
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view;
             switch (viewType) {
                 case 0:
@@ -898,6 +922,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
             return new RecyclerListView.Holder(view);
         }
 
+        @SuppressLint("DefaultLocale")
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
@@ -1143,7 +1168,16 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                             value = LocaleController.getString("PasswordOff", R.string.PasswordOff);
                             icon = R.drawable.msg2_secret;
                         }
-                        textCell2.setTextAndValueAndIcon(LocaleController.getString("Passcode", R.string.Passcode), value, true, icon, true);
+                        textCell2.setTextAndValueAndColorfulIcon(LocaleController.getString("Passcode", R.string.Passcode), value, true, icon, getThemedColor(Theme.key_color_green), true);
+
+                    } else if (position == passmodeRow) {
+                        if (SharedConfig.passmodeHash.length() != 0) {
+                            value = LocaleController.getString("PasswordOn", R.string.PasswordOn);
+                        } else {
+                            value = LocaleController.getString("PasswordOff", R.string.PasswordOff);
+                        }
+
+                        textCell2.setTextAndValueAndIcon(LocaleController.getString("Passmode", R.string.Passmode), value, R.drawable.msg_premium_badge, true);
                     } else if (position == blockedRow) {
                         int totalCount = getMessagesController().totalBlockedCount;
                         if (totalCount == 0) {
@@ -1175,7 +1209,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                 return 3;
             } else if (position == privacyShadowRow) {
                 return 4;
-            } else if (position == autoDeleteMesages || position == sessionsRow || position == emailLoginRow || position == passwordRow || position == passcodeRow || position == blockedRow) {
+        } else if (position == autoDeleteMesages || position == sessionsRow || position == emailLoginRow || position == passwordRow || position == passcodeRow || position == passmodeRow || position == blockedRow) {
                 return 5;
             }
             return 0;

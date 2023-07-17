@@ -8,10 +8,12 @@
 
 package org.telegram.ui;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -82,6 +84,7 @@ public class DataSettingsActivity extends BaseFragment {
     private int usageSection2Row;
     private int streamSectionRow;
     private int enableStreamRow;
+    private int enableCoordsPhotoRow;
     private int enableCacheStreamRow;
     private int enableAllStreamRow;
     private int enableMkvRow;
@@ -130,11 +133,9 @@ public class DataSettingsActivity extends BaseFragment {
         storageUsageRow = rowCount++;
         dataUsageRow = rowCount++;
         storageNumRow = -1;
-        if (Build.VERSION.SDK_INT >= 19) {
-            storageDirs = AndroidUtilities.getRootDirs();
-            if (storageDirs.size() > 1) {
-                storageNumRow = rowCount++;
-            }
+        storageDirs = AndroidUtilities.getRootDirs();
+        if (storageDirs.size() > 1) {
+            storageNumRow = rowCount++;
         }
         usageSection2Row = rowCount++;
         mediaDownloadSectionRow = rowCount++;
@@ -174,6 +175,7 @@ public class DataSettingsActivity extends BaseFragment {
 //        autoplaySectionRow = rowCount++;
         streamSectionRow = rowCount++;
         enableStreamRow = rowCount++;
+        enableCoordsPhotoRow = rowCount++;
         if (BuildVars.DEBUG_VERSION) {
             enableMkvRow = rowCount++;
             enableAllStreamRow = rowCount++;
@@ -549,6 +551,15 @@ public class DataSettingsActivity extends BaseFragment {
                 SharedConfig.toggleStreamMedia();
                 TextCheckCell textCheckCell = (TextCheckCell) view;
                 textCheckCell.setChecked(SharedConfig.streamMedia);
+            }else if (position == enableCoordsPhotoRow) {
+                SharedConfig.toggleCoordsPhoto();
+                TextCheckCell textCheckCell = (TextCheckCell) view;
+                textCheckCell.setChecked(SharedConfig.coordsPhoto);
+                if(Build.VERSION.SDK_INT >= 23 && SharedConfig.coordsPhoto){
+                    if (getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED || getParentActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        getParentActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+                    }
+                }
             } else if (position == enableAllStreamRow) {
                 SharedConfig.toggleStreamAllVideo();
                 TextCheckCell textCheckCell = (TextCheckCell) view;
@@ -752,6 +763,8 @@ public class DataSettingsActivity extends BaseFragment {
                     TextCheckCell checkCell = (TextCheckCell) holder.itemView;
                     if (position == enableStreamRow) {
                         checkCell.setTextAndCheck(LocaleController.getString("EnableStreaming", R.string.EnableStreaming), SharedConfig.streamMedia, enableAllStreamRow != -1);
+                    } else if (position == enableCoordsPhotoRow) {
+                        checkCell.setTextAndCheck(LocaleController.getString("EnableCoordsPhoto", R.string.EnableCoordsPhoto), SharedConfig.coordsPhoto, true);
                     } else if (position == enableCacheStreamRow) {
                         //checkCell.setTextAndCheck(LocaleController.getString("CacheStreamFile", R.string.CacheStreamFile), SharedConfig.saveStreamMedia, true);
                     } else if (position == enableMkvRow) {
@@ -870,6 +883,8 @@ public class DataSettingsActivity extends BaseFragment {
                     checkCell.setChecked(SharedConfig.saveStreamMedia);
                 } else if (position == enableStreamRow) {
                     checkCell.setChecked(SharedConfig.streamMedia);
+                }else if (position == enableCoordsPhotoRow) {
+                    checkCell.setChecked(SharedConfig.coordsPhoto);
                 } else if (position == enableAllStreamRow) {
                     checkCell.setChecked(SharedConfig.streamAllVideo);
                 } else if (position == enableMkvRow) {
@@ -936,7 +951,7 @@ public class DataSettingsActivity extends BaseFragment {
                 return 0;
             } else if (position == mediaDownloadSectionRow || position == streamSectionRow || position == callsSectionRow || position == usageSectionRow || position == proxySectionRow || position == autoplayHeaderRow || position == saveToGallerySectionRow) {
                 return 2;
-            } else if (position == enableCacheStreamRow || position == enableStreamRow || position == enableAllStreamRow || position == enableMkvRow || position == autoplayGifsRow || position == autoplayVideoRow) {
+            } else if (position == enableCacheStreamRow || position == enableStreamRow || position == enableCoordsPhotoRow || position == enableAllStreamRow || position == enableMkvRow || position == autoplayGifsRow || position == autoplayVideoRow || position == saveToGalleryGroupsRow || position == saveToGalleryPeerRow || position == saveToGalleryChannelsRow) {
                 return 3;
             } else if (position == enableAllStreamInfoRow) {
                 return 4;

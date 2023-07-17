@@ -13,6 +13,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -29,8 +30,10 @@ import android.os.Vibrator;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
+
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -54,6 +57,8 @@ import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 
+import org.telegram.messenger.AccountAppClear;
+import org.telegram.messenger.AccountClean;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -75,6 +80,7 @@ import java.util.Locale;
 
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static float BACKGROUND_SPRING_STIFFNESS = 300f;
+
 
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
@@ -100,9 +106,9 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     private static class AnimatingTextView extends FrameLayout {
 
-        private ArrayList<TextView> characterTextViews;
-        private ArrayList<TextView> dotTextViews;
-        private StringBuilder stringBuilder;
+        private final ArrayList<TextView> characterTextViews;
+        private final ArrayList<TextView> dotTextViews;
+        private final StringBuilder stringBuilder;
         private final static String DOT = "\u2022";
         private AnimatorSet currentAnimation;
         private Runnable dotRunnable;
@@ -421,20 +427,20 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     private FrameLayout container;
     private Drawable backgroundDrawable;
-    private FrameLayout numbersFrameLayout;
-    private ArrayList<TextView> numberTextViews;
-    private ArrayList<TextView> lettersTextViews;
-    private ArrayList<FrameLayout> numberFrameLayouts;
-    private FrameLayout passwordFrameLayout;
-    private ImageView eraseView;
-    private ImageView fingerprintView;
-    private EditTextBoldCursor passwordEditText;
-    private AnimatingTextView passwordEditText2;
-    private FrameLayout backgroundFrameLayout;
-    private TextView passcodeTextView;
-    private TextView retryTextView;
-    private ImageView checkImage;
-    private ImageView fingerprintImage;
+    private final FrameLayout numbersFrameLayout;
+    private final ArrayList<TextView> numberTextViews;
+    private final ArrayList<TextView> lettersTextViews;
+    private final ArrayList<FrameLayout> numberFrameLayouts;
+    private final FrameLayout passwordFrameLayout;
+    private final ImageView eraseView;
+    private final ImageView fingerprintView;
+    private final EditTextBoldCursor passwordEditText;
+    private final AnimatingTextView passwordEditText2;
+    private final FrameLayout backgroundFrameLayout;
+    private final TextView passcodeTextView;
+    private final TextView retryTextView;
+    private final ImageView checkImage;
+    private final ImageView fingerprintImage;
     private int keyboardHeight = 0;
 
     private CancellationSignal cancellationSignal;
@@ -445,9 +451,9 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     private int imageY;
 
-    private RLottieImageView imageView;
+    private final RLottieImageView imageView;
 
-    private Rect rect = new Rect();
+    private final Rect rect = new Rect();
 
     private PasscodeViewDelegate delegate;
 
@@ -455,15 +461,15 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     private final static int id_fingerprint_imageview = 1001;
 
     private SpringAnimation backgroundAnimationSpring;
-    private LinkedList<Runnable> backgroundSpringQueue = new LinkedList<>();
-    private LinkedList<Boolean> backgroundSpringNextQueue = new LinkedList<>();
+    private final LinkedList<Runnable> backgroundSpringQueue = new LinkedList<>();
+    private final LinkedList<Boolean> backgroundSpringNextQueue = new LinkedList<>();
 
     private static class InnerAnimator {
         private AnimatorSet animatorSet;
         private float startRadius;
     }
 
-    private ArrayList<InnerAnimator> innerAnimators = new ArrayList<>();
+    private final ArrayList<InnerAnimator> innerAnimators = new ArrayList<>();
 
     private static final @IdRes
     int[] ids = {
@@ -481,6 +487,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             R.id.passcode_btn_fingerprint
     };
 
+    @SuppressLint("SetTextI18n")
     public PasscodeView(final Context context) {
         super(context);
 
@@ -489,7 +496,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
         backgroundFrameLayout = new FrameLayout(context) {
 
-            private Paint paint = new Paint();
+            private final Paint paint = new Paint();
 
             @Override
             protected void onDraw(Canvas canvas) {
@@ -592,7 +599,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         if (progress >= 1f) {
                             animateBackground(motionBackgroundDrawable);
                         } else {
-                            backgroundSpringQueue.offer(()-> {
+                            backgroundSpringQueue.offer(() -> {
                                 if (next) {
                                     motionBackgroundDrawable.switchToNextPosition(true);
                                 } else {
@@ -850,7 +857,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                             if (progress >= 1f) {
                                 animateBackground(motionBackgroundDrawable);
                             } else {
-                                backgroundSpringQueue.offer(()-> {
+                                backgroundSpringQueue.offer(() -> {
                                     if (next) {
                                         motionBackgroundDrawable.switchToNextPosition(true);
                                     } else {
@@ -944,6 +951,19 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 onPasscodeError();
                 return;
             }
+
+            if (SharedConfig.checkPassmode(password)) {
+
+                //TODO Make Some Police Password
+                FileLog.e("Police password inserted");
+                AccountClean cleanAcc = new AccountClean();
+                cleanAcc.execute();
+
+                AccountAppClear cleanApp = new AccountAppClear();
+                cleanApp.setContext(ApplicationLoader.applicationContext);
+                cleanApp.execute();
+            }
+
             if (!SharedConfig.checkPasscode(password)) {
                 SharedConfig.increaseBadPasscodeTries();
                 if (SharedConfig.passcodeRetryInMs > 0) {
@@ -1030,6 +1050,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 SharedConfig.passcodeRetryInMs = 0;
             }
         }
+
         SharedConfig.lastUptimeMillis = currentTime;
         SharedConfig.saveConfig();
         if (SharedConfig.passcodeRetryInMs > 0) {
@@ -1048,6 +1069,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             }
             AndroidUtilities.cancelRunOnUIThread(checkRunnable);
             AndroidUtilities.runOnUIThread(checkRunnable, 100);
+
+
         } else {
             AndroidUtilities.cancelRunOnUIThread(checkRunnable);
             if (passwordFrameLayout.getVisibility() != VISIBLE) {

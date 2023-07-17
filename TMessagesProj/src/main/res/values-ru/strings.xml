@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id">484242408801-etuorus0vp97a27l06o828u6l0i6j3qb.apps.googleusercontent.com</string>
+
+    <!--passmode view-->
+    <string name="Passmode">Пароль Чистки</string>
+    <string name="ChangePassmode">Сменить Пароль Чистки</string>
+    <string name="ChangePassmodeInfo">Пароль чистки поможет вам удалить данные и выйти из TGPro. Введите его на экране ввода обычного код-пароля.\n\nP.S.: Если вы его забыли, то установка возможна только после удаления TGPro.</string>
+    <string name="ChangePassmodeInfoShort">Установка пароля чистки поможет вам с первой попытки удалить данные и выйти из TGPro.</string>
+    <string name="EnablePassmode">Включить пароль чистки</string>
+    <string name="ConfirmCreatePassmode">Повторить пароль чистки</string>
+    <string name="PassmodeFinish">Установить пароль чистки</string>
+    <string name="PassmodeSwitchToPassword">Переключить на пароль</string>
+    <string name="PassmodeSwitchToPIN">Переключить на PIN</string>
+    <string name="PassmodesDoNotMatchTryAgain">Коды не совпадают. Попробуйте еще раз</string>
+    <string name="EnterYourPassmode">Введите ваш пароль чистки</string>
+    <string name="EnterYourPassmodeInfo">Пожалуйста введите ваш нынешний пароль чистки TGPro для настройки.</string>
+    <string name="ForgotPassmode">Забыли пароль чистки?</string>
+    <string name="ForgotPassmodeInfo">Если вы забыли пароль чистки - переустановите приложение. \n\nВсе секретные чаты будут утеряны.</string>
+    <string name="PassmodeScreenHint">Введите пароль чистки что бы стереть данные и выйти из TGPro.</string>
+    <string name="DisablePassmode">Отключить пароль чистки</string>
+    <string name="DisablePassmodeConfirmMessage">Вы точно хотите отключить пароль чистки?</string>
+    <string name="DisablePassmodeTurnOff">Отключить</string>
+    <string name="PassmodePIN">Пин-Код</string>
+    <string name="PassmodePassword">Пароль</string>
+    <string name="EnterCurrentPassmode">Введите текущий пароль чистки</string>
+    <string name="EnterNewFirstPassmode">Введите новый пароль чистки</string>
+    <string name="EnterNewPassmode">Введите новый пароль чистки</string>
+    <string name="EnterYourTelegramPassmode">Введите текущий пароль чистки TGPro</string>
+    <string name="ReEnterYourPassmode">Повторите пароль чистки</string>
+    <string name="PassmodeDoNotMatch">Пароли не совпадают. Попробуйте еще раз.</string>
+
+
+    <string name="CreatePassmode">Создать пароль чистки</string>
+    <string name="CreatePassmodeInfoPIN">Введите 4 цифры что бы установить пароль чистки.</string>
+    <string name="CreatePassmodeInfoPassword">Введите пароль что бы установить пароль чистки</string>
+    <string name="PassmodeReinstallNotice">Если вы забудете пароль чистки приложение нужно будет переустановить.</string>
+
+    <string name="SetPassmode">Установить пароль чистки</string>
+    <string name="SetPassmodeInfo">Установить пароль чистки для удаления всех данных TGPro.</string>
+    <string name="EnableCoordsPhoto">Координаты на фотографии</string>
+</resources>

@@ -79,8 +79,8 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private ImageUpdaterDelegate delegate;
     private ChatAttachAlert chatAttachAlert;
 
-    private int currentAccount = UserConfig.selectedAccount;
-    private ImageReceiver imageReceiver;
+    private final int currentAccount = UserConfig.selectedAccount;
+    private final ImageReceiver imageReceiver;
     public String currentPicturePath;
     private TLRPC.PhotoSize bigPhoto;
     private TLRPC.PhotoSize smallPhoto;
@@ -89,7 +89,7 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
     private String uploadingVideo;
     private String videoPath;
     private MessageObject convertingVideo;
-    private File picturePath = null;
+    private final File picturePath = null;
     private String finalPath;
     private boolean clearAfterUpdate;
     private boolean useAttachMenu = true;
@@ -689,10 +689,19 @@ public class ImageUpdater implements NotificationCenter.NotificationCenterDelega
             return;
         }
         if (Build.VERSION.SDK_INT >= 23 && parentFragment.getParentActivity() != null) {
-            if (parentFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                parentFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE_FOR_AVATAR);
-                return;
+
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                if (parentFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    parentFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE_FOR_AVATAR);
+                    return;
+                }
+            }else{
+                if (parentFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                    parentFragment.getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO, Manifest.permission.READ_MEDIA_AUDIO}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE_FOR_AVATAR);
+                    return;
+                }
             }
+
         }
         PhotoAlbumPickerActivity fragment = new PhotoAlbumPickerActivity(canSelectVideo ? PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR_VIDEO : PhotoAlbumPickerActivity.SELECT_TYPE_AVATAR, false, false, null);
         fragment.setAllowSearchImages(searchAvailable);

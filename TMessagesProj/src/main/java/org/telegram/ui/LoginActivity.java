@@ -84,6 +84,7 @@ import android.widget.ViewSwitcher;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
@@ -1870,6 +1871,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 tv.setSingleLine(true);
                 tv.setEllipsize(TextUtils.TruncateAt.END);
                 tv.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_HORIZONTAL);
+
+                //Make register by SMS Providers
+                //tv.setEnabled(false);
                 return tv;
             });
 
@@ -2257,12 +2261,15 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         phoneNumberConfirmView.popupFabContainer.callOnClick();
                         return true;
                     }
-                    onNextPressed(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        onNextPressed(null);
+                    }
                     return true;
                 }
                 return false;
             });
-
+            //Make register by SMS providers
+            //phoneField.setEnabled(false);
             int bottomMargin = 72;
             if (newAccount && activityMode == MODE_LOGIN) {
                 syncContactsBox = new CheckBoxCell(context, 2);
@@ -2679,7 +2686,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 phoneNumberConfirmView = new PhoneNumberConfirmView(fragmentView.getContext(), (ViewGroup) fragmentView, floatingButtonContainer, phoneNumber, new PhoneNumberConfirmView.IConfirmDialogCallback() {
                     @Override
                     public void onFabPressed(PhoneNumberConfirmView confirmView, TransformableLoginButtonView fab) {
-                        onConfirm(confirmView);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            onConfirm(confirmView);
+                        }
                     }
 
                     @Override
@@ -2689,7 +2698,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
                     @Override
                     public void onConfirmPressed(PhoneNumberConfirmView confirmView, TextView confirmTextView) {
-                        onConfirm(confirmView);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            onConfirm(confirmView);
+                        }
                     }
 
                     @Override
@@ -3158,6 +3169,126 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
+
+        public void fillNumber(String number) {
+            if (numberFilled || activityMode != MODE_LOGIN) {
+                return;
+            }
+            try {
+                TelephonyManager tm = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService(Context.TELEPHONY_SERVICE);
+                if (AndroidUtilities.isSimAvailable()) {
+                    boolean allowCall = true;
+                    boolean allowReadPhoneNumbers = true;
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        allowCall = getParentActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            allowReadPhoneNumbers = getParentActivity().checkSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED;
+                        }
+                        if (checkShowPermissions && (!allowCall || !allowReadPhoneNumbers)) {
+                            permissionsShowItems.clear();
+                            if (!allowCall) {
+                                permissionsShowItems.add(Manifest.permission.READ_PHONE_STATE);
+                            }
+                            if (!allowReadPhoneNumbers) {
+                                permissionsShowItems.add(Manifest.permission.READ_PHONE_NUMBERS);
+                            }
+                            if (!permissionsShowItems.isEmpty()) {
+                                List<String> callbackPermissionItems = new ArrayList<>(permissionsShowItems);
+                                Runnable r = () -> {
+                                    SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+                                    if (preferences.getBoolean("firstloginshow", true) || getParentActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_PHONE_STATE)) {
+                                        preferences.edit().putBoolean("firstloginshow", false).apply();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+
+                                        builder.setTopAnimation(R.raw.incoming_calls, 46, false, Theme.getColor(Theme.key_dialogTopBackground));
+                                        builder.setPositiveButton(LocaleController.getString("Continue", R.string.Continue), null);
+                                        builder.setMessage(LocaleController.getString("AllowFillNumber", R.string.AllowFillNumber));
+                                        permissionsShowDialog = showDialog(builder.create(), true, null);
+                                        needRequestPermissions = true;
+                                    } else {
+                                        getParentActivity().requestPermissions(callbackPermissionItems.toArray(new String[0]), BasePermissionsActivity.REQUEST_CODE_CALLS);
+                                    }
+                                };
+                                if (isAnimatingIntro) {
+                                    animationFinishCallback = r;
+                                } else {
+                                    r.run();
+                                }
+                            }
+                            return;
+                        }
+                    }
+                    numberFilled = true;
+                    if (!newAccount && allowCall && allowReadPhoneNumbers) {
+                        codeField.setAlpha(0);
+                        phoneField.setAlpha(0);
+
+                        String textToSet = null;
+                        boolean ok = false;
+                        if (!TextUtils.isEmpty(number)) {
+                            if (number.length() > 4) {
+                                for (int a = 4; a >= 1; a--) {
+                                    String sub = number.substring(0, a);
+
+                                    CountrySelectActivity.Country country;
+                                    List<CountrySelectActivity.Country> list = codesMap.get(sub);
+                                    if (list == null) {
+                                        country = null;
+                                    } else if (list.size() > 1) {
+                                        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+                                        String lastMatched = preferences.getString("phone_code_last_matched_" + sub, null);
+
+                                        country = list.get(list.size() - 1);
+                                        if (lastMatched != null) {
+                                            for (CountrySelectActivity.Country c : countriesArray) {
+                                                if (Objects.equals(c.shortname, lastMatched)) {
+                                                    country = c;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        country = list.get(0);
+                                    }
+
+                                    if (country != null) {
+                                        ok = true;
+                                        textToSet = number.substring(a);
+                                        codeField.setText(sub);
+                                        break;
+                                    }
+                                }
+                                if (!ok) {
+                                    textToSet = number.substring(1);
+                                    codeField.setText(number.substring(0, 1));
+                                }
+                            }
+                            if (textToSet != null) {
+                                phoneField.requestFocus();
+                                phoneField.setText(textToSet);
+                                phoneField.setSelection(phoneField.length());
+                            }
+                        }
+
+                        if (phoneField.length() > 0) {
+                            AnimatorSet set = new AnimatorSet().setDuration(300);
+                            set.playTogether(ObjectAnimator.ofFloat(codeField, View.ALPHA, 1f),
+                                    ObjectAnimator.ofFloat(phoneField, View.ALPHA, 1f));
+                            set.start();
+
+                            confirmedNumber = true;
+                        } else {
+                            codeField.setAlpha(1);
+                            phoneField.setAlpha(1);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+
+
         @Override
         public void onShow() {
             super.onShow();
@@ -3237,14 +3368,12 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private RLottieImageView blueImageView;
         private TextView timeText;
 
-        private FrameLayout bottomContainer;
         private ViewSwitcher errorViewSwitcher;
         private TextView problemText;
         private FrameLayout problemFrame;
         private TextView wrongCode;
         private LinearLayout openFragmentButton;
         private RLottieImageView openFragmentImageView;
-        private TextView openFragmentButtonText;
 
         private Bundle currentParams;
         private ProgressView progressView;
@@ -3279,9 +3408,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         private boolean isResendingCode = false;
 
         private String pattern = "*";
-        private String prefix = "";
         private String catchedPhone;
-        private int length;
         private String url;
 
         private boolean postedErrorColorTimeout;
@@ -3663,7 +3790,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 openFragmentImageView.setAnimation(R.raw.fragment, 36, 36);
                 openFragmentButton.addView(openFragmentImageView, LayoutHelper.createLinear(36, 36, Gravity.CENTER_VERTICAL, 0, 0, 2, 0));
 
-                openFragmentButtonText = new TextView(context);
+                TextView openFragmentButtonText = new TextView(context);
                 openFragmentButtonText.setText(LocaleController.getString(R.string.OpenFragment));
                 openFragmentButtonText.setTextColor(Color.WHITE);
                 openFragmentButtonText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -3681,7 +3808,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             errorViewSwitcher.addView(wrongCode, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
 
             if (centerContainer == null) {
-                bottomContainer = new FrameLayout(context);
+                FrameLayout bottomContainer = new FrameLayout(context);
                 bottomContainer.addView(errorViewSwitcher, LayoutHelper.createFrame(currentType == VIEW_CODE_FRAGMENT_SMS ? LayoutHelper.MATCH_PARENT : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, 32));
                 addView(bottomContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 0, 1f));
             } else {
@@ -3940,8 +4067,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             openTime = (int) (System.currentTimeMillis() / 1000);
             nextType = params.getInt("nextType");
             pattern = params.getString("pattern");
-            prefix = params.getString("prefix");
-            length = params.getInt("length");
+            String prefix = params.getString("prefix");
+            int length = params.getInt("length");
             if (length == 0) {
                 length = 5;
             }
@@ -4836,6 +4963,9 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 return false;
             });
             addView(outlineCodeField, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 32, 16, 0));
+
+            //Make register by SMS Providers
+            codeField.setEnabled(false);
 
             cancelButton = new TextView(context);
             cancelButton.setGravity(Gravity.CENTER | Gravity.LEFT);

@@ -8,12 +8,15 @@
 
 package org.telegram.messenger;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -21,7 +24,9 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.webkit.WebView;
 
+import androidx.annotation.ChecksSdkIntAtLeast;
 import androidx.annotation.IntDef;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
 
 import org.json.JSONObject;
@@ -39,6 +44,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,6 +63,8 @@ public class SharedConfig {
             PASSCODE_TYPE_PASSWORD = 1;
     private static int legacyDevicePerformanceClass = -1;
 
+    public final static int PASSMODE_TYPE_PIN = 0,
+            PASSMODE_TYPE_PASSWORD = 1;
     public static boolean loopStickers() {
         return LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_STICKERS_CHAT);
     }
@@ -98,9 +106,12 @@ public class SharedConfig {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
             PASSCODE_TYPE_PIN,
-            PASSCODE_TYPE_PASSWORD
+            PASSCODE_TYPE_PASSWORD,
+            PASSMODE_TYPE_PIN,
+            PASSMODE_TYPE_PASSWORD
     })
     public @interface PasscodeType {}
+    public @interface PassmodeType {}
 
     public final static int SAVE_TO_GALLERY_FLAG_PEER = 1;
     public final static int SAVE_TO_GALLERY_FLAG_GROUP = 2;
@@ -127,6 +138,14 @@ public class SharedConfig {
     public static byte[] passcodeSalt = new byte[0];
     public static boolean appLocked;
     public static int autoLockIn = 60 * 60;
+
+
+    @PassmodeType
+    public static int passmodeType;
+    public static String passmodeHash = "";
+    public static long passmodeRetryInMs;
+    public static int badPassmodeTries;
+    public static byte[] passmodeSalt = new byte[0];
 
     public static boolean saveIncomingPhotos;
     public static boolean allowScreenCapture;
@@ -165,6 +184,7 @@ public class SharedConfig {
 
 //    public static int saveToGalleryFlags;
     public static int mapPreviewType = 2;
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
     public static boolean chatBubbles = Build.VERSION.SDK_INT >= 30;
     public static boolean raiseToSpeak = false;
     public static boolean raiseToListen = true;
@@ -176,6 +196,9 @@ public class SharedConfig {
     public static boolean roundCamera16to9 = true;
     public static boolean noSoundHintShowed = false;
     public static boolean streamMedia = true;
+
+    public static boolean coordsPhoto = false;
+
     public static boolean streamAllVideo = false;
     public static boolean streamMkv = false;
     public static boolean saveStreamMedia = true;
@@ -312,9 +335,14 @@ public class SharedConfig {
                 editor.putBoolean("saveIncomingPhotos", saveIncomingPhotos);
                 editor.putString("passcodeHash1", passcodeHash);
                 editor.putString("passcodeSalt", passcodeSalt.length > 0 ? Base64.encodeToString(passcodeSalt, Base64.DEFAULT) : "");
+                editor.putString("passmodeHash1", passmodeHash);
+                editor.putString("passmodeSalt", passmodeSalt.length > 0 ? Base64.encodeToString(passmodeSalt, Base64.DEFAULT) : "");
+
                 editor.putBoolean("appLocked", appLocked);
                 editor.putInt("passcodeType", passcodeType);
                 editor.putLong("passcodeRetryInMs", passcodeRetryInMs);
+                editor.putInt("passmodeType", passmodeType);
+                editor.putLong("passmodeRetryInMs", passmodeRetryInMs);
                 editor.putLong("lastUptimeMillis", lastUptimeMillis);
                 editor.putInt("badPasscodeTries", badPasscodeTries);
                 editor.putInt("autoLockIn", autoLockIn);
@@ -387,9 +415,12 @@ public class SharedConfig {
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", Context.MODE_PRIVATE);
             saveIncomingPhotos = preferences.getBoolean("saveIncomingPhotos", false);
             passcodeHash = preferences.getString("passcodeHash1", "");
+            passmodeHash = preferences.getString("passmodeHash1", "");
             appLocked = preferences.getBoolean("appLocked", false);
             passcodeType = preferences.getInt("passcodeType", 0);
             passcodeRetryInMs = preferences.getLong("passcodeRetryInMs", 0);
+            passmodeType = preferences.getInt("passmodeType", 0);
+            passmodeRetryInMs = preferences.getLong("passmodeRetryInMs", 0);
             lastUptimeMillis = preferences.getLong("lastUptimeMillis", 0);
             badPasscodeTries = preferences.getInt("badPasscodeTries", 0);
             autoLockIn = preferences.getInt("autoLockIn", 60 * 60);
@@ -415,12 +446,24 @@ public class SharedConfig {
                 lastPauseTime = (int) (SystemClock.elapsedRealtime() / 1000 - 60 * 10);
             }
 
+            if (passmodeHash.length() > 0 && lastPauseTime == 0) {
+                lastPauseTime = (int) (SystemClock.elapsedRealtime() / 1000 - 60 * 10);
+            }
+
             String passcodeSaltString = preferences.getString("passcodeSalt", "");
             if (passcodeSaltString.length() > 0) {
                 passcodeSalt = Base64.decode(passcodeSaltString, Base64.DEFAULT);
             } else {
                 passcodeSalt = new byte[0];
             }
+
+            String passmodeSaltString = preferences.getString("passmodeSalt", "");
+            if (passmodeSaltString.length() > 0) {
+                passmodeSalt = Base64.decode(passmodeSaltString, Base64.DEFAULT);
+            } else {
+                passmodeSalt = new byte[0];
+            }
+
             lastUpdateCheckTime = preferences.getLong("appUpdateCheckTime", System.currentTimeMillis());
             try {
                 String update = preferences.getString("appUpdate", null);
@@ -468,6 +511,7 @@ public class SharedConfig {
             recordViaSco = preferences.getBoolean("record_via_sco", false);
             customTabs = preferences.getBoolean("custom_tabs", true);
             directShare = preferences.getBoolean("direct_share", true);
+            coordsPhoto = preferences.getBoolean("coordsPhoto", false);
             shuffleMusic = preferences.getBoolean("shuffleMusic", false);
             playOrderReversed = !shuffleMusic && preferences.getBoolean("playOrderReversed", false);
             inappCamera = preferences.getBoolean("inappCamera", true);
@@ -530,7 +574,7 @@ public class SharedConfig {
             configLoaded = true;
 
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && debugWebView) {
+                if (debugWebView) {
                     WebView.setWebContentsDebuggingEnabled(true);
                 }
             } catch (Exception e) {
@@ -569,6 +613,20 @@ public class SharedConfig {
                 default:
                     passcodeRetryInMs = 30000;
                     break;
+            }
+            lastUptimeMillis = SystemClock.elapsedRealtime();
+        }
+        saveConfig();
+    }
+
+
+    public static void increaseBadPassmodeTries() {
+        badPassmodeTries++;
+        if (badPassmodeTries >= 1) {
+            if (badPasscodeTries == 1) {
+                passmodeRetryInMs = 5000;
+            } else {
+                passmodeRetryInMs = 30000;
             }
             lastUptimeMillis = SystemClock.elapsedRealtime();
         }
@@ -687,15 +745,54 @@ public class SharedConfig {
         return false;
     }
 
+    public static boolean checkPassmode(String passmode) {
+        if (passmodeSalt.length == 0) {
+            boolean result = Utilities.MD5(passmode).equals(passmodeHash);
+            if (result) {
+                try {
+                    passmodeSalt = new byte[16];
+                    Utilities.random.nextBytes(passmodeSalt);
+                    byte[] passmodeBytes = passmode.getBytes(StandardCharsets.UTF_8);
+                    byte[] bytes = new byte[32 + passmodeBytes.length];
+                    System.arraycopy(passmodeSalt, 0, bytes, 0, 16);
+                    System.arraycopy(passmodeBytes, 0, bytes, 16, passmodeBytes.length);
+                    System.arraycopy(passmodeSalt, 0, bytes, passmodeBytes.length + 16, 16);
+                    passmodeHash = Utilities.bytesToHex(Utilities.computeSHA256(bytes, 0, bytes.length));
+                    saveConfig();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+            return result;
+        } else {
+            try {
+                byte[] passmodeBytes = passmode.getBytes(StandardCharsets.UTF_8);
+                byte[] bytes = new byte[32 + passmodeBytes.length];
+                System.arraycopy(passmodeSalt, 0, bytes, 0, 16);
+                System.arraycopy(passmodeBytes, 0, bytes, 16, passmodeBytes.length);
+                System.arraycopy(passmodeSalt, 0, bytes, passmodeBytes.length + 16, 16);
+                String hash = Utilities.bytesToHex(Utilities.computeSHA256(bytes, 0, bytes.length));
+                return passmodeHash.equals(hash);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        return false;
+    }
+
     public static void clearConfig() {
         saveIncomingPhotos = false;
         appLocked = false;
         passcodeType = PASSCODE_TYPE_PIN;
         passcodeRetryInMs = 0;
+        passmodeType = PASSMODE_TYPE_PIN;
+        passmodeRetryInMs = 0;
         lastUptimeMillis = 0;
         badPasscodeTries = 0;
         passcodeHash = "";
         passcodeSalt = new byte[0];
+        passmodeHash = "";
+        passmodeSalt = new byte[0];
         autoLockIn = 60 * 60;
         lastPauseTime = 0;
         useFingerprint = true;
@@ -861,9 +958,7 @@ public class SharedConfig {
 
     public static void toggleDebugWebView() {
         debugWebView = !debugWebView;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(debugWebView);
-        }
+        WebView.setWebContentsDebuggingEnabled(debugWebView);
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("debugWebView", debugWebView);
@@ -1027,6 +1122,14 @@ public class SharedConfig {
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("streamMedia", streamMedia);
+        editor.apply();
+    }
+
+    public static void toggleCoordsPhoto() {
+        coordsPhoto = !coordsPhoto;
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("coordsPhoto", coordsPhoto);
         editor.apply();
     }
 
@@ -1270,10 +1373,10 @@ public class SharedConfig {
     public static void checkSaveToGalleryFiles() {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                File telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
-                File imagePath = new File(telegramPath, "Telegram Images");
+                File telegramPath = new File(Environment.getExternalStorageDirectory(), "TGPro");
+                File imagePath = new File(telegramPath, "TGPro Images");
                 imagePath.mkdir();
-                File videoPath = new File(telegramPath, "Telegram Video");
+                File videoPath = new File(telegramPath, "TGPro Video");
                 videoPath.mkdir();
 
                 if (!BuildVars.NO_SCOPED_STORAGE) {

@@ -8,19 +8,36 @@
 
 package org.telegram.messenger.camera;
 
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
+
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
+
+
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.exoplayer2.util.NonNullApi;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -35,6 +52,8 @@ import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.SerializedData;
+import org.telegram.ui.Components.ChatAttachAlertPhotoLayout;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +83,8 @@ public class CameraController implements MediaRecorder.OnInfoListener {
     private boolean cameraInitied;
     private boolean loadingCameras;
 
-    private ArrayList<Runnable> onFinishCameraInitRunnables = new ArrayList<>();
+    private Location myLocation;
+    private final ArrayList<Runnable> onFinishCameraInitRunnables = new ArrayList<>();
     CameraView recordingCurrentCameraView;
 
     private static volatile CameraController Instance = null;
@@ -386,7 +406,19 @@ public class CameraController implements MediaRecorder.OnInfoListener {
         }
         return value;
     }
-
+    @SuppressLint("MissingPermission")
+    public static Location getLastLocation() {
+        LocationManager lm = (LocationManager) ApplicationLoader.applicationContext.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = lm.getProviders(true);
+        Location l = null;
+        for (int i = providers.size() - 1; i >= 0; i--) {
+            l = lm.getLastKnownLocation(providers.get(i));
+            if (l != null) {
+                break;
+            }
+        }
+        return l;
+    }
     public boolean takePicture(final File path, final CameraSession session, final Runnable callback) {
         if (session == null) {
             return false;
@@ -424,13 +456,22 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                             if (scaled != bitmap) {
                                 bitmap.recycle();
                             }
+
+                            Bitmap result = scaled;
+                            if(SharedConfig.coordsPhoto) {
+                                myLocation = ChatAttachAlertPhotoLayout.getLastLocation();
+                                if(myLocation != null) {
+                                    result = writeTextOnDrawable(scaled, "Location: " + myLocation.getLatitude() + "," + myLocation.getLongitude());
+                                }
+                            }
+
                             FileOutputStream outputStream = new FileOutputStream(path);
-                            scaled.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+                            result.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
                             outputStream.flush();
                             outputStream.getFD().sync();
                             outputStream.close();
-                            if (scaled != null) {
-                                ImageLoader.getInstance().putImageToCache(new BitmapDrawable(scaled), key, false);
+                            if (result != null) {
+                                ImageLoader.getInstance().putImageToCache(new BitmapDrawable(null, result), key, false);
                             }
                             if (callback != null) {
                                 callback.run();
@@ -440,13 +481,24 @@ public class CameraController implements MediaRecorder.OnInfoListener {
                             FileLog.e(e);
                         }
                     }
+
+                    Bitmap result;
+                    result = bitmap;
+                    if(SharedConfig.coordsPhoto) {
+                        myLocation = getLastLocation();
+                        if(myLocation != null){
+                            result = writeTextOnDrawable(bitmap, "Location: " + myLocation.getLatitude() + "," + myLocation.getLongitude());
+                        }
+                    }
+
                     FileOutputStream outputStream = new FileOutputStream(path);
-                    outputStream.write(data);
+                    result.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
                     outputStream.flush();
                     outputStream.getFD().sync();
                     outputStream.close();
-                    if (bitmap != null) {
-                        ImageLoader.getInstance().putImageToCache(new BitmapDrawable(bitmap), key, false);
+                    if (result != null) {
+                        ImageLoader.getInstance().putImageToCache(new BitmapDrawable(null, result), key, false);
                     }
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -460,6 +512,30 @@ public class CameraController implements MediaRecorder.OnInfoListener {
             FileLog.e(e);
         }
         return false;
+    }
+
+    private Bitmap writeTextOnDrawable(Bitmap thePic, String text) {
+
+        Bitmap bm = thePic.copy(Bitmap.Config.ARGB_8888, true);
+        Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.WHITE);
+        paint.setTypeface(tf);
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setTextSize(35);
+
+        Rect textRect = new Rect();
+        paint.getTextBounds(text, 0, text.length(), textRect);
+
+        Canvas canvas = new Canvas(bm);
+        //Calculate the positions
+        int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+        //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+        canvas.drawText(text, 50, 50, paint);
+        return bm;
     }
 
     public void startPreview(final CameraSession session) {

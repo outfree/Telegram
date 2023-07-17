@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
@@ -97,8 +98,8 @@ public class FilesMigrationService extends Service {
         }
 
         File newPath = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-        File telegramPath = new File(newPath, "Telegram");
-        File oldPath = new File(path, "Telegram");
+        File telegramPath = new File(newPath, "TGPro");
+        File oldPath = new File(path, "TGPro");
 
         totalFilesCount = getFilesCount(oldPath);
 
@@ -204,7 +205,7 @@ public class FilesMigrationService extends Service {
                     }
                 }
             }
-            File oldDirectory = new File(path, "Telegram");
+            File oldDirectory = new File(path, "TGPro");
             hasOldFolder = oldDirectory.exists();
         }
         if (hasOldFolder) {
@@ -281,15 +282,23 @@ public class FilesMigrationService extends Service {
             setCustomView(scrollView);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
         public void migrateOldFolder() {
             Activity activity = fragment.getParentActivity();
             boolean canWrite = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-            boolean canRead = activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            boolean canRead = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && activity.checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
 
             if (!canRead || !canWrite) {
                 ArrayList<String> permissions = new ArrayList<>();
                 if (!canRead) {
-                    permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+                    } else {
+                        permissions.add(Manifest.permission.READ_MEDIA_IMAGES);
+                        permissions.add(Manifest.permission.READ_MEDIA_AUDIO);
+                        permissions.add(Manifest.permission.READ_MEDIA_VIDEO);
+                    }
+
                 }
                 if (!canWrite) {
                     permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);

@@ -137,6 +137,14 @@ public class AlertsCreator {
                 .create();
     }
 
+    public static Dialog createForgotPassmodeDialog(Context ctx) {
+        return new AlertDialog.Builder(ctx)
+                .setTitle(LocaleController.getString(R.string.ForgotPassmode))
+                .setMessage(LocaleController.getString(R.string.ForgotPassmodeInfo))
+                .setPositiveButton(LocaleController.getString(R.string.Close), null)
+                .create();
+    }
+
     public static Dialog createLocationRequiredDialog(Context ctx, boolean friends) {
         return new AlertDialog.Builder(ctx)
                 .setMessage(AndroidUtilities.replaceTags(friends ? LocaleController.getString("PermissionNoLocationFriends", R.string.PermissionNoLocationFriends) :
