@@ -125,21 +125,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private LinearLayoutManager cameraPhotoLayoutManager;
     private PhotoAttachAdapter cameraAttachAdapter;
 
-    private boolean checkGpsEnabled = true;
+    private ActionBarMenuItem dropDownContainer;
     private final ActionBarMenuItem dropDownContainer;
     public TextView dropDown;
-    private final Drawable dropDownDrawable;
+    private Drawable dropDownDrawable;
 
     public RecyclerListView gridView;
-    private final GridLayoutManager layoutManager;
-    private final PhotoAttachAdapter adapter;
-    private final EmptyTextProgressView progressView;
+    private GridLayoutManager layoutManager;
+    private PhotoAttachAdapter adapter;
+    private EmptyTextProgressView progressView;
     private RecyclerViewItemRangeSelector itemRangeSelector;
     private int gridExtraSpace;
     private boolean shouldSelect;
     private int alertOnlyOnce;
 
-    private final Drawable cameraDrawable;
+    private Drawable cameraDrawable;
 
     private int currentSelectedCount;
 
@@ -152,11 +152,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     protected CameraView cameraView;
     protected FrameLayout cameraIcon;
     protected PhotoAttachCameraCell cameraCell;
-    private final TextView recordTime;
-    private final ImageView[] flashModeButton = new ImageView[2];
+    private TextView recordTime;
+    private ImageView[] flashModeButton = new ImageView[2];
     private boolean flashAnimationInProgress;
-    private final float[] cameraViewLocation = new float[2];
-    private final int[] viewPosition = new int[2];
+    private float[] cameraViewLocation = new float[2];
+    private int[] viewPosition = new int[2];
     private float cameraViewOffsetX;
     private float cameraViewOffsetY;
     private float cameraViewOffsetBottomY;
@@ -164,18 +164,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private boolean canSaveCameraPreview;
     private boolean cameraAnimationInProgress;
     private float cameraOpenProgress;
-    private final int[] animateCameraValues = new int[5];
+    private int[] animateCameraValues = new int[5];
     private int videoRecordTime;
     private Runnable videoRecordRunnable;
-    private final DecelerateInterpolator interpolator = new DecelerateInterpolator(1.5f);
-    private final FrameLayout cameraPanel;
-    private final ShutterButton shutterButton;
-    private final ZoomControlView zoomControlView;
+    private DecelerateInterpolator interpolator = new DecelerateInterpolator(1.5f);
+    private FrameLayout cameraPanel;
+    private ShutterButton shutterButton;
+    private ZoomControlView zoomControlView;
     private AnimatorSet zoomControlAnimation;
     private Runnable zoomControlHideRunnable;
-    private final TextView counterTextView;
-    private final TextView tooltipTextView;
-    private final ImageView switchCameraButton;
+    private TextView counterTextView;
+    private TextView tooltipTextView;
+    private ImageView switchCameraButton;
     private boolean takingPhoto;
     private static boolean mediaFromExternalCamera;
     private static ArrayList<Object> cameraPhotos = new ArrayList<>();
@@ -194,7 +194,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private float cameraZoom;
     private boolean zooming;
     private boolean zoomWas;
-    private final android.graphics.Rect hitRect = new Rect();
+    private android.graphics.Rect hitRect = new Rect();
 
     private float lastY;
     private boolean pressed;
@@ -236,8 +236,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     public final static int preview_gap = 4;
     public final static int preview = 5;
 
-    private final ActionBarMenuSubItem spoilerItem;
-    private final ActionBarMenuSubItem compressItem;
+    private ActionBarMenuSubItem spoilerItem;
+    private ActionBarMenuSubItem compressItem;
     protected ActionBarMenuSubItem previewItem;
 
     boolean forceDarkTheme;
@@ -356,7 +356,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    private final PhotoViewer.PhotoViewerProvider photoViewerProvider = new BasePhotoProvider() {
+    private PhotoViewer.PhotoViewerProvider photoViewerProvider = new BasePhotoProvider() {
         @Override
         public void onOpen() {
             pauseCameraPreview();
@@ -373,7 +373,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             resumeCameraPreview();
             AndroidUtilities.runOnUIThread(()-> setCurrentSpoilerVisible(-1, true), 150);
         }
-        
+
         @Override
         public PhotoViewer.PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index, boolean needPreview) {
             PhotoAttachPhotoCell cell = getCellForIndex(index);
@@ -1615,7 +1615,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
                 int index1 = albums.indexOf(o1);
                 int index2 = albums.indexOf(o2);
-                return Integer.compare(index1, index2);
+                if (index1 > index2) {
+                    return 1;
+                } else if (index1 < index2) {
+                    return -1;
+                } else {
+                    return 0;
+                }
 
             });
         } else {
@@ -3930,9 +3936,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
     private class PhotoAttachAdapter extends RecyclerListView.FastScrollAdapter {
 
-        private final Context mContext;
-        private final boolean needCamera;
-        private final ArrayList<RecyclerListView.Holder> viewsCache = new ArrayList<>(8);
+        private Context mContext;
+        private boolean needCamera;
+        private ArrayList<RecyclerListView.Holder> viewsCache = new ArrayList<>(8);
         private int itemsCount;
         private int photosStartRow;
         private int photosEndRow;
