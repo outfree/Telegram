@@ -709,6 +709,7 @@
     <string name="TypeLocationGroup">Link</string>
     <string name="TypeLocationGroupEdit">Tap to add a permanent link</string>
     <string name="ChoosePhoto">Choose photo</string>
+    <string name="AddImage">Add Image</string>
     <string name="ChoosePhotoOrVideo">Choose photo or video</string>
     <string name="AddPhoto">Set new photo</string>
     <string name="ChooseTakePhoto">Take photo</string>
@@ -6779,6 +6780,7 @@
     <string name="StoryPrivacyContactsExclude_many">Contacts (-%d)</string>
     <string name="StoryPrivacyContactsExclude_other">Contacts (-%d)</string>
     <string name="StoryPrivacyAlertTitle">Share story</string>
+    <string name="StoryPrivacyAlertEditTitle">Edit Privacy Settings</string>
     <string name="StoryPrivacyAlertSubtitle_zero">Choose who can view for %d hours</string>
     <string name="StoryPrivacyAlertSubtitle_one">Choose who can view for %d hour</string>
     <string name="StoryPrivacyAlertSubtitle_two">Choose who can view for %d hours</string>
@@ -6796,30 +6798,8 @@
     <string name="StoryPrivacyAlertAsMessageSubtitle">Choose recipients</string>
     <string name="StoryPrivacyButtonSave">Save Settings</string>
     <string name="StoryPrivacyButtonPost">Post Story</string>
-    <string name="StoryPrivacyButtonCloseFriends">Share with Close Friends</string>
     <string name="StoryPrivacyButtonSaveCloseFriends">Save List</string>
-    <string name="StoryPrivacyButtonAllContacts">Share with All Contacts</string>
-    <string name="StoryPrivacyButtonContacts_zero">Share with Contacts</string>
-    <string name="StoryPrivacyButtonContacts_one">Share with Contact</string>
-    <string name="StoryPrivacyButtonContacts_two">Share with Contacts</string>
-    <string name="StoryPrivacyButtonContacts_few">Share with Contacts</string>
-    <string name="StoryPrivacyButtonContacts_many">Share with Contacts</string>
-    <string name="StoryPrivacyButtonContacts_other">Share with Contacts</string>
-    <string name="StoryPrivacyButtonSelectedContacts_zero">Share with Selected Contacts</string>
-    <string name="StoryPrivacyButtonSelectedContacts_one">Share with Selected Contact</string>
-    <string name="StoryPrivacyButtonSelectedContacts_two">Share with Selected Contacts</string>
-    <string name="StoryPrivacyButtonSelectedContacts_few">Share with Selected Contacts</string>
-    <string name="StoryPrivacyButtonSelectedContacts_many">Share with Selected Contacts</string>
-    <string name="StoryPrivacyButtonSelectedContacts_other">Share with Selected Contacts</string>
     <string name="StoryPrivacyButtonExcludeContacts">Exclude Contacts</string>
-    <string name="StoryPrivacyButtonEveryone">Share with Everyone</string>
-    <string name="StoryPrivacyButtonMessage">Send as Message</string>
-    <string name="StoryPrivacyButtonMessageChats_zero">Send to Selected Chats</string>
-    <string name="StoryPrivacyButtonMessageChats_one">Send to Selected Chat</string>
-    <string name="StoryPrivacyButtonMessageChats_two">Send to Selected Chats</string>
-    <string name="StoryPrivacyButtonMessageChats_few">Send to Selected Chats</string>
-    <string name="StoryPrivacyButtonMessageChats_many">Send to Selected Chats</string>
-    <string name="StoryPrivacyButtonMessageChats_other">Send to Selected Chats</string>
     <string name="StoryPrivacyOptionEveryone">Everyone</string>
     <string name="StoryPrivacyOptionContacts">Contacts</string>
     <string name="StoryPrivacyOptionContactsDetail">exclude people</string>
@@ -6855,11 +6835,6 @@
     <string name="ArchiveStories_many">Archive Stories</string>
     <string name="ArchiveStories_other">Archive Stories</string>
     <string name="EditStory">Edit Story</string>
-    <string name="EditStoryPhoto">Edit Photo</string>
-    <string name="EditStoryVideo">Edit Video</string>
-    <string name="EditStoryCaption">Edit Caption</string>
-    <string name="EditStoryReplacePhoto">Replace Photo</string>
-    <string name="EditStoryReplaceVideo">Replace Video</string>
     <string name="WhoCanSee">Who can see</string>
     <string name="Everyone">Everyone</string>
     <string name="CloseFriends">Close Friends</string>
@@ -6953,6 +6928,7 @@
     <string name="StoryNotificationHidden_few">%d stories were posted</string>
     <string name="StoryNotificationHidden_many">%d stories were posted</string>
     <string name="StoryNotificationHidden_other">%d stories were posted</string>
+    <string name="StoryNotificationSingle">posted a story</string>
     <string name="StoryNotification1_zero">posted %d stories</string>
     <string name="StoryNotification1_one">posted a story</string>
     <string name="StoryNotification1_two">posted %d stories</string>
@@ -7009,7 +6985,7 @@
     <string name="StoryMentionedAction">View Story</string>
     <string name="ExpiredStoryMention">The story you were mentioned in is no longer available</string>
     <string name="ExpiredStoryMentioned">The story where you mentioned %s is no longer available</string>
-    <string name="StoryYouMentionedTitle">**You** mentioned %s in a story.</string>
+    <string name="StoryYouMentionedTitle">You mentioned %s in a story.</string>
     <string name="FilterStories">Stories</string>
     <string name="CachedStory">cached story</string>
     <string name="LocalStoriesCache">Stories</string>
@@ -7073,6 +7049,6 @@
     <string name="StoriesTooMuch_many">You can’t post more than **%d stories** in **24 hours**.</string>
     <string name="StoriesTooMuch_other">You can’t post more than **%d stories** in **24 hours**.</string>
     <string name="StoriesPremiumHint">Posting stories is currently available only to subscribers of **Telegram Premium**.</string>
-    <string name="ArchiveStories">Hide Stories</string>
+    <string name="ArchivePeerStories">Hide Stories</string>
     <string name="UnarchiveStories">Unhide Stories</string>
 </resources>

@@ -24,10 +24,10 @@ public class BuildVars {
     public static boolean USE_CLOUD_STRINGS = true;
     public static boolean CHECK_UPDATES = true;
     public static boolean NO_SCOPED_STORAGE = Build.VERSION.SDK_INT <= 29;
-    public static int BUILD_VERSION = 3687;
-    public static String BUILD_VERSION_STRING = "9.7.0";
     public static int APP_ID = 26836764;
     public static String APP_HASH = "6f42052f05dc74bd2cc14aa2e310d3ca";
+    public static String BUILD_VERSION_STRING = "9.7.2";
+    public static int BUILD_VERSION = 3705;
 
     // SafetyNet key for Google Identity SDK, set it to empty to disable
     public static String SAFETYNET_KEY = "AIzaSyDqt8P-7F7CPCseMkOiVRgb1LY8RN1bvH8";
